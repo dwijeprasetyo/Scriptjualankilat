@@ -3,495 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Jualan Kilat - Edisi Pro</title>
+    <title>Script Jualan Kilat - Pro Offline</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light-theme');
-        }
-    </script>
-
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: #070B14; color: #f8fafc; transition: 0.3s; }
+        .light-theme { --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --border: rgba(0,0,0,0.1); }
+        .dark-theme { --bg: #070B14; --card: rgba(30, 41, 59, 0.7); --text: #f8fafc; --border: rgba(255,255,255,0.05); }
         
-        :root {
-            --bg-color: #070B14;
-            --nav-bg: rgba(15, 23, 42, 0.8);
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --border-color: rgba(255, 255, 255, 0.05);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --input-bg: rgba(30, 41, 59, 0.3);
-        }
-
-        .light-theme {
-            --bg-color: #f1f5f9;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --input-bg: #ffffff;
-        }
-
-        body { background-color: var(--bg-color); color: var(--text-main); }
-        .nav-sticky { background-color: var(--nav-bg); border-bottom: 1px solid var(--border-color); }
-        .glass-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
-        .input-style { background-color: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); }
-        
-        .nav-btn.active { background-color: #4f46e5; color: white; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
+        body.light-theme { background-color: var(--bg); color: var(--text); }
+        .glass-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid var(--border); }
+        .input-style { background: rgba(30, 41, 59, 0.1); border: 1px solid var(--border); color: inherit; }
+        .nav-btn.active { background-color: #4f46e5; color: white; }
+        .hidden-app { display: none !important; }
         ::-webkit-scrollbar { display: none; }
-        
-        .theme-toggle-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-        }
-
-        .xs-hidden { display: none; }
-        @media (min-width: 400px) { .xs-hidden { display: inline; } }
     </style>
 </head>
-<body class="pb-20 overflow-x-hidden">
+<body class="pb-20">
 
-    <!-- NAVIGATION -->
-    <nav class="sticky top-0 z-50 nav-sticky backdrop-blur-md px-4 h-20 flex items-center justify-between">
-        <div class="flex items-center gap-3 min-w-0">
-            <div class="bg-indigo-600 p-2 rounded-xl shrink-0">
-                <i data-lucide="zap" class="text-white fill-white w-4 h-4"></i>
+    <div id="gatekeeper" class="fixed inset-0 z-[200] bg-[#070B14] flex items-center justify-center p-6">
+        <div class="glass-card p-10 rounded-[3rem] max-w-md w-full space-y-8 text-center border-indigo-500/20">
+            <h2 class="font-black italic uppercase text-2xl">Activation</h2>
+            <div class="space-y-4">
+                <input id="gate-pass" type="text" class="w-full input-style p-5 rounded-2xl text-center font-bold" placeholder="SERIAL NUMBER">
+                <input id="gate-key" type="password" class="w-full input-style p-5 rounded-2xl text-center text-xs" placeholder="GEMINI API KEY">
             </div>
-            <div class="flex flex-col leading-none truncate">
-                <h1 class="font-black text-base md:text-lg tracking-tighter uppercase italic truncate">
-                    Script <span class="text-indigo-500">Jualan Kilat</span>
-                </h1>
-                <span class="text-[8px] font-bold uppercase opacity-50 tracking-[0.2em] mt-0.5">by Jepengonten</span>
-            </div>
+            <button onclick="unlockApp()" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase">AKTIVASI</button>
         </div>
-        
-        <div class="flex items-center gap-2 shrink-0">
-            <button onclick="toggleTheme()" class="theme-toggle-btn" title="Ganti Tema">
-                <i id="theme-icon" data-lucide="sun" class="w-4 h-4 text-indigo-500"></i>
-            </button>
-            <div class="flex bg-slate-900/20 p-1 rounded-xl border border-black/5 dark:border-white/5">
-                <button onclick="switchTab('editor')" id="btn-editor" class="nav-btn active flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black uppercase transition-all whitespace-nowrap">
-                    <i data-lucide="edit-3" class="w-3 h-3"></i> <span class="xs-hidden">BUAT</span>
-                </button>
-                <button onclick="switchTab('history')" id="btn-history" class="nav-btn flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black uppercase transition-all whitespace-nowrap opacity-60">
-                    <i data-lucide="archive" class="w-3 h-3"></i> <span class="xs-hidden">SIMPAN</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    </div>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-8">
-        
-        <!-- EDITOR TAB -->
-        <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-5 space-y-6">
-                <div class="glass-card rounded-[2.5rem] p-6 md:p-8 space-y-6 lg:sticky lg:top-28">
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-bold uppercase opacity-60 tracking-widest flex items-center gap-2">
-                                <i data-lucide="camera" class="w-3 h-3 text-indigo-400"></i> Foto Produk
-                            </label>
-                            <div onclick="document.getElementById('inp-file').click()" class="group border-2 border-dashed border-slate-500/30 hover:border-indigo-500/50 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden relative">
-                                <div id="dropzone-ui" class="text-center group-hover:scale-110 transition-transform">
-                                    <i data-lucide="plus" class="w-6 h-6 mx-auto mb-2 opacity-30 text-indigo-400"></i>
-                                    <p class="text-[9px] font-black uppercase opacity-40">Pilih Foto Produk</p>
-                                </div>
-                                <img id="img-preview" class="absolute inset-0 w-full h-full object-cover hidden" src="" alt="Preview">
+    <div id="app-content" class="hidden-app">
+        <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md px-4 h-20 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 p-2 rounded-xl"><i data-lucide="zap" class="text-white fill-white w-4 h-4"></i></div>
+                <h1 class="font-black text-lg tracking-tighter uppercase italic">Script <span class="text-indigo-500">Jualan Kilat</span></h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="logout()" class="p-2 opacity-50"><i data-lucide="power" class="w-4 h-4"></i></button>
+                <div class="flex bg-black/20 p-1 rounded-xl">
+                    <button onclick="switchTab('editor')" id="btn-editor" class="nav-btn active px-3 py-2 rounded-lg text-[9px] font-black uppercase">BUAT</button>
+                    <button onclick="switchTab('history')" id="btn-history" class="nav-btn px-3 py-2 rounded-lg text-[9px] font-black uppercase opacity-60">SIMPAN</button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto p-4 md:p-8">
+            <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-card rounded-[2.5rem] p-6 md:p-8 space-y-6">
+                        <div class="space-y-4">
+                            <div onclick="document.getElementById('inp-file').click()" class="border-2 border-dashed border-slate-500/30 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden">
+                                <div id="dropzone-ui"><i data-lucide="plus" class="mx-auto mb-2 opacity-30"></i><p class="text-[9px] font-black uppercase opacity-40">Pilih Foto Produk</p></div>
+                                <img id="img-preview" class="absolute inset-0 w-full h-full object-cover hidden">
                                 <input type="file" id="inp-file" class="hidden" accept="image/*" onchange="previewImage(this)">
                             </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-bold uppercase opacity-60 tracking-widest flex items-center gap-2">
-                                <i data-lucide="message-circle" class="w-3 h-3 text-yellow-400"></i> Detail / Keunggulan Produk
-                            </label>
-                            <textarea id="inp-desc" class="w-full input-style rounded-[1.5rem] p-5 text-sm h-28 resize-none outline-none focus:border-indigo-500 transition-all" placeholder="Contoh: Serum ampuh cerahkan muka dalam 7 hari..."></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-bold uppercase opacity-60">Target Audiens</label>
-                                <input id="inp-target" type="text" class="w-full input-style rounded-xl p-4 text-xs font-bold" placeholder="Misal: Mahasiswa">
+                            <textarea id="inp-desc" class="w-full input-style rounded-[1.5rem] p-5 text-sm h-28 resize-none" placeholder="Detail keunggulan produk..."></textarea>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input id="inp-target" type="text" class="input-style rounded-xl p-4 text-xs font-bold" placeholder="Target Audiens">
+                                <select id="inp-duration" class="input-style rounded-xl p-4 text-xs font-bold">
+                                    <option value="15 detik">15 Detik</option><option value="30 detik">30 Detik</option><option value="60 detik">60 Detik</option>
+                                </select>
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-bold uppercase opacity-60">Durasi Video</label>
-                                <select id="inp-duration" class="w-full input-style rounded-xl p-4 text-xs font-bold appearance-none">
-                                    <option value="15 detik">15 Detik</option>
-                                    <option value="30 detik">30 Detik</option>
-                                    <option value="60 detik">60 Detik</option>
-                                    <option value="90 detik">90 Detik</option>
+                            <div class="grid grid-cols-2 gap-4">
+                                <select id="inp-tone" class="input-style rounded-xl p-4 text-xs font-bold">
+                                    <option value="santai">Ramah & Akrab</option><option value="genz">Gen-Z (Gaul)</option><option value="nyinyir">Nyinyir</option>
+                                </select>
+                                <select id="inp-style" class="input-style rounded-xl p-4 text-xs font-bold">
+                                    <option value="ugc review">UGC Review</option><option value="storytelling">Storytelling</option><option value="hardselling">Hard Selling</option>
                                 </select>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-bold uppercase opacity-60">Gaya Bicara</label>
-                                <select id="inp-tone" class="w-full input-style rounded-xl p-4 text-xs font-bold appearance-none">
-                                    <option value="santai">Ramah & Akrab</option>
-                                    <option value="genz">Gen-Z (Gaul)</option>
-                                    <option value="nyinyir">Nyinyir / Satir</option>
-                                    <option value="formal">Formal</option>
-                                    <option value="emosional">Emosional</option>
-                                </select>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-bold uppercase opacity-60">Model Video</label>
-                                <select id="inp-style" class="w-full input-style rounded-xl p-4 text-xs font-bold appearance-none">
-                                    <option value="ugc review">UGC Review</option>
-                                    <option value="storytelling">Storytelling</option>
-                                    <option value="hardselling">Hard Selling</option>
-                                    <option value="softselling">Soft Selling</option>
-                                    <option value="product review">Product Review</option>
-                                    <option value="talking head">Talking Head</option>
-                                    <option value="asmr">Unboxing ASMR</option>
-                                </select>
-                            </div>
-                        </div>
+                        <button onclick="generateScripts()" id="btn-generate" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black uppercase text-[11px] tracking-widest shadow-2xl active:scale-95">BUAT 10 SCRIPT SIAP JUALAN</button>
                     </div>
-
-                    <button onclick="generateScripts()" id="btn-generate" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-6 rounded-3xl font-black uppercase tracking-widest text-[11px] shadow-2xl flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-50">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i> BUAT 10 SCRIPT SIAP JUALAN
-                    </button>
                 </div>
-            </div>
 
-            <div class="lg:col-span-7">
-                <div id="results-anchor" class="h-1"></div>
-                <div id="results-list" class="space-y-8 min-h-[400px]">
-                    <div class="text-center py-32 px-6 border-2 border-dashed rounded-[3rem] border-slate-500/30 flex flex-col items-center opacity-40">
-                        <div class="w-20 h-20 bg-slate-500/10 rounded-full flex items-center justify-center mb-6">
-                            <i data-lucide="zap" class="w-8 h-8 text-indigo-500 opacity-20"></i>
-                        </div>
-                        <h3 class="text-xl font-black uppercase italic tracking-tight">Sudah Siap Jualan?</h3>
-                        <p class="text-[10px] font-black uppercase tracking-widest mt-2">Script jualanmu akan muncul di sini.</p>
+                <div class="lg:col-span-7" id="results-list">
+                    <div class="text-center py-40 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem]">
+                        <h3 class="text-xl font-black uppercase italic tracking-tight">Script Muncul Di Sini</h3>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- HISTORY TAB -->
-        <div id="tab-history" class="hidden max-w-4xl mx-auto space-y-8">
-            <h2 class="text-3xl font-black uppercase italic flex items-center gap-3">
-                <i data-lucide="archive" class="text-indigo-500"></i> Simpanan
-            </h2>
-            <div id="history-content" class="grid gap-4"></div>
-        </div>
+            <div id="tab-history" class="hidden max-w-4xl mx-auto space-y-4"></div>
+        </main>
+    </div>
 
-    </main>
-
-    <div id="notification" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] hidden bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black uppercase italic text-xs shadow-2xl transition-all"></div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-
-        const apiKey = ""; 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'script-jualan-kilat-pro';
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        let currentUser = null;
+    <script>
+        const MASTER_SERIAL = "SK-9288-XPQ2-LNT0";
+        let apiKey = localStorage.getItem('user_api_key') || "";
         let base64Image = "";
-        let isGenerating = false;
 
-        // INI "OTAK SUPER" YANG SUDAH DISUNTIK PSIKOLOGI MARKETING
-        const systemPrompt = `Kamu adalah Creative Director & Psikolog Marketing kelas dunia. 
-Tugasmu adalah membuat 10 script video pendek yang memicu tindakan (action) berdasarkan pilihan tone:
-
-1. Jika tone SANTAI: Gunakan psikologi "Liking Bias". Bicara seperti sahabat, gunakan teknik soft-selling, dan buat audiens merasa nyaman.
-2. Jika tone GEN-Z: Gunakan psikologi "FOMO & Anti-Gatekeep". Gunakan bahasa slang yang tepat, fokus pada tren, dan buat audiens merasa harus punya SEKARANG.
-3. Jika tone NYINYIR: Gunakan psikologi "Pattern Interrupt". Mulai dengan kalimat yang menyentil ego atau kesalahan audiens untuk menghentikan scrolling, lalu berikan solusi logis.
-4. Jika tone FORMAL: Gunakan psikologi "Authority Bias". Fokus pada fungsionalitas, hasil nyata, dan kredibilitas produk.
-5. Jika tone EMOSIONAL: Gunakan psikologi "Pain & Pleasure". Bangun empati pada masalah audiens, lalu tawarkan kelegaan melalui produk.
-
-Format output WAJIB JSON: 
-[{"hook": "...", "body": "...", "visual": "...", "caption": "...", "hashtags": "..."}]
-
-Pastikan setiap script unik, memiliki struktur Hook yang mematikan di 3 detik pertama, dan arahkan penonton ke Call to Action yang kuat di akhir video.`;
-
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (err) {}
-        };
-        initAuth();
-
-        onAuthStateChanged(auth, (u) => {
-            currentUser = u;
-            if (u) loadHistory();
-        });
-
-        window.toggleTheme = () => {
-            const isLight = document.documentElement.classList.toggle('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            updateThemeIcon();
-        };
-
-        function updateThemeIcon() {
-            const isLight = document.documentElement.classList.contains('light-theme');
-            const icon = document.getElementById('theme-icon');
-            icon.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
-            lucide.createIcons();
+        function unlockApp() {
+            const sn = document.getElementById('gate-pass').value.trim().toUpperCase();
+            const ak = document.getElementById('gate-key').value.trim();
+            if(sn === MASTER_SERIAL && ak.startsWith("AIza")) {
+                localStorage.setItem('user_api_key', ak);
+                localStorage.setItem('is_activated', 'true');
+                location.reload();
+            } else { alert("Data Salah!"); }
         }
-        updateThemeIcon();
 
-        window.switchTab = (tab) => {
-            document.getElementById('tab-editor').classList.toggle('hidden', tab !== 'editor');
-            document.getElementById('tab-history').classList.toggle('hidden', tab !== 'history');
-            document.getElementById('btn-editor').classList.toggle('active', tab === 'editor');
-            document.getElementById('btn-history').classList.toggle('active', tab === 'history');
-            lucide.createIcons();
-        };
+        if(localStorage.getItem('is_activated')) {
+            document.getElementById('gatekeeper').remove();
+            document.getElementById('app-content').classList.remove('hidden-app');
+        }
 
-        window.previewImage = (input) => {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    document.getElementById('img-preview').src = e.target.result;
-                    document.getElementById('img-preview').classList.remove('hidden');
-                    document.getElementById('dropzone-ui').classList.add('hidden');
-                    base64Image = e.target.result.split(',')[1];
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        };
+        function logout() { localStorage.clear(); location.reload(); }
 
-        window.generateScripts = async () => {
-            const desc = document.getElementById('inp-desc').value.trim();
-            const target = document.getElementById('inp-target').value.trim();
-            const duration = document.getElementById('inp-duration').value;
-            const tone = document.getElementById('inp-tone').value;
-            const style = document.getElementById('inp-style').value;
-
-            if (!desc && !base64Image) return showNotification("Isi detail produk dulu!", "error");
-            if (isGenerating) return;
-
-            isGenerating = true;
-            const btn = document.getElementById('btn-generate');
-            const resultsList = document.getElementById('results-list');
-            
-            btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> PROSES...`;
-            lucide.createIcons();
-
-            resultsList.innerHTML = `<div class="h-96 rounded-[3rem] glass-card flex flex-col items-center justify-center gap-6 overflow-hidden">
-                <i data-lucide="brain-circuit" class="w-12 h-12 text-indigo-500 animate-pulse"></i>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400">Meracik Naskah Viral...</p>
-            </div>`;
-            lucide.createIcons();
-
-            const payload = {
-                contents: [{ 
-                    parts: [
-                        { text: `Produk: ${desc}, Target Audiens: ${target}, Tone: ${tone}, Model Video: ${style}, Durasi: ${duration}. Buat 10 script jualan viral.` },
-                        ...(base64Image ? [{ inlineData: { mimeType: "image/png", data: base64Image } }] : [])
-                    ] 
-                }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                generationConfig: { responseMimeType: "application/json" }
+        function previewImage(i) {
+            const r = new FileReader();
+            r.onload = e => { 
+                document.getElementById('img-preview').src = e.target.result;
+                document.getElementById('img-preview').classList.remove('hidden');
+                document.getElementById('dropzone-ui').classList.add('hidden');
+                base64Image = e.target.result.split(',')[1];
             };
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
-                renderResults(scripts, tone);
-                saveToHistory(desc || "Project Pro", scripts);
-            } catch (err) {
-                resultsList.innerHTML = `<p class="text-center text-red-500 py-10">Gagal meracik script. Periksa koneksi atau API Key.</p>`;
-            } finally {
-                isGenerating = false;
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> BUAT 10 SCRIPT SIAP JUALAN`;
-                lucide.createIcons();
-            }
-        };
-
-        function renderResults(scripts, tone) {
-            const container = document.getElementById('results-list');
-            container.innerHTML = scripts.map((s, idx) => {
-                const fullVO = `${s.hook}. ${s.body}`.replace(/'/g, "\\'");
-                const scriptFullText = `HOOK: ${s.hook}\n\nBODY:\n${s.body}\n\nVISUAL:\n${s.visual}\n\nCAPTION:\n${s.caption}\n${s.hashtags}`;
-                
-                return `
-                <div class="glass-card rounded-[2.5rem] overflow-hidden shadow-2xl mb-8 relative">
-                    <div class="bg-black/5 dark:bg-black/20 px-8 py-5 flex justify-between items-center border-b border-black/5 dark:border-white/5">
-                        <span class="bg-indigo-600 text-[9px] font-black text-white uppercase px-3 py-1.5 rounded-lg italic tracking-widest">REKOMENDASI #${idx + 1}</span>
-                        <button onclick="copyRawScript(\`${scriptFullText.replace(/`/g, '\\`')}\`)" class="p-2 hover:bg-indigo-500/10 rounded-xl transition-all">
-                            <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
-                        </button>
-                    </div>
-
-                    <div class="p-8">
-                        <div class="text-[9px] font-black text-indigo-500 uppercase tracking-widest mb-2">HOOK</div>
-                        <h2 class="text-xl md:text-2xl font-black italic leading-tight tracking-tighter mb-6">"${s.hook}"</h2>
-                        
-                        <div class="bg-black/5 dark:bg-slate-800/40 p-5 rounded-2xl flex flex-col md:flex-row gap-4 items-center mb-8 border border-black/5 dark:border-white/5">
-                            <select id="voice-select-${idx}" class="w-full md:flex-1 input-style rounded-xl p-3 text-[11px] font-bold outline-none">
-                                <option value="Kore">Kore (Cowo)</option>
-                                <option value="Leda">Leda (Cewe)</option>
-                                <option value="Fenrir">Fenrir (Cowo Savage)</option>
-                                <option value="Aoede">Aoede (Cewe Soft)</option>
-                            </select>
-                            <button onclick="generateVoice('${fullVO}', ${idx}, '${tone}')" id="voice-btn-${idx}" class="w-full md:w-auto bg-indigo-600 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-2">
-                                <i data-lucide="play" class="w-4 h-4"></i> PREVIEW SUARA
-                            </button>
-                            <div id="audio-player-${idx}"></div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="space-y-4">
-                                <label class="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Script Suara</label>
-                                <div class="p-5 bg-black/5 dark:bg-black/30 border border-black/5 dark:border-white/5 rounded-2xl text-sm leading-relaxed italic opacity-80">${s.body}</div>
-                            </div>
-                            <div class="space-y-4">
-                                <label class="text-[9px] font-black text-yellow-500 uppercase tracking-widest">Visual Directing</label>
-                                <div class="p-5 bg-yellow-500/5 border border-yellow-500/10 rounded-2xl text-[11px] leading-relaxed opacity-70">${s.visual}</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 p-6 bg-black/5 dark:bg-white/5 rounded-[2rem] border border-black/5 dark:border-white/5 space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[9px] font-black text-pink-500 uppercase">Caption</span>
-                                <button onclick="copyText('${(s.caption + '\\n\\n' + s.hashtags).replace(/'/g, "\\'")}')" class="text-[9px] font-black text-indigo-500 bg-indigo-500/10 px-3 py-1 rounded-full uppercase">Salin</button>
-                            </div>
-                            <p class="text-[11px] opacity-80">${s.caption}</p>
-                            <p class="text-[11px] font-bold text-indigo-500">${s.hashtags}</p>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-            lucide.createIcons();
-            document.getElementById('results-anchor').scrollIntoView({ behavior: 'smooth' });
+            r.readAsDataURL(i.files[0]);
         }
 
-        window.copyRawScript = (text) => {
-            copyText(text);
-            showNotification("NASKA BERHASIL DISALIN!");
-        };
-
-        window.generateVoice = async (text, idx, tone) => {
-            const btn = document.getElementById(`voice-btn-${idx}`);
-            const voiceName = document.getElementById(`voice-select-${idx}`).value;
-            btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>`;
-            lucide.createIcons();
+        async function generateScripts() {
+            const btn = document.getElementById('btn-generate');
+            btn.disabled = true; btn.innerText = "PROSES...";
+            const prompt = `Produk: ${document.getElementById('inp-desc').value}, Target: ${document.getElementById('inp-target').value}, Tone: ${document.getElementById('inp-tone').value}, Style: ${document.getElementById('inp-style').value}. Buat 10 script jualan viral. Output JSON: [{"hook":"","body":"","visual":"","caption":"","hashtags":""}]`;
             
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Bacakan dengan nada ${tone}: ${text}` }] }],
-                        generationConfig: {
-                            responseModalities: ["AUDIO"],
-                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
-                        }
+                        contents: [{ parts: [{ text: prompt }, ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])] }],
+                        generationConfig: { responseMimeType: "application/json" }
                     })
                 });
-                const result = await res.json();
-                const audioData = result.candidates[0].content.parts[0].inlineData.data;
-                const audioBlob = await pcmToWav(audioData);
-                const url = URL.createObjectURL(audioBlob);
-                
-                document.getElementById(`audio-player-${idx}`).innerHTML = `<audio controls class="h-8 w-40"><source src="${url}" type="audio/wav"></audio>`;
-                btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i>`;
-            } catch (e) {
-                showNotification("Gagal memutar suara.", "error");
-            } finally {
-                btn.disabled = false;
-                lucide.createIcons();
-            }
-        };
-
-        async function pcmToWav(base64) {
-            const binary = atob(base64);
-            const bytes = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-            const header = new ArrayBuffer(44);
-            const view = new DataView(header);
-            const writeStr = (o, s) => { for(let i=0; i<s.length; i++) view.setUint8(o+i, s.charCodeAt(i)); };
-            writeStr(0, 'RIFF'); view.setUint32(4, 36+bytes.length, true); writeStr(8, 'WAVE'); writeStr(12, 'fmt ');
-            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-            view.setUint32(24, 24000, true); view.setUint32(28, 48000, true); view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true); writeStr(36, 'data'); view.setUint32(40, bytes.length, true);
-            return new Blob([header, bytes], { type: 'audio/wav' });
+                const data = await res.json();
+                const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
+                renderResults(scripts);
+                saveLocal(scripts);
+            } catch (e) { alert("Error API!"); }
+            finally { btn.disabled = false; btn.innerText = "BUAT 10 SCRIPT SIAP JUALAN"; lucide.createIcons(); }
         }
 
-        async function saveToHistory(name, scripts) {
-            if (!currentUser) return;
+        function renderResults(scripts) {
+            document.getElementById('results-list').innerHTML = scripts.map((s, idx) => `
+                <div class="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8 border border-white/5 shadow-2xl">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase italic text-white">REKOMENDASI #${idx+1}</span>
+                        <button onclick="navigator.clipboard.writeText('${s.hook}\\n${s.body}')" class="text-indigo-500"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    </div>
+                    <h2 class="text-2xl font-black italic leading-tight">"${s.hook}"</h2>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <select id="v-${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold uppercase">
+                            <option value="Kore">Kore (Cowo)</option><option value="Leda">Leda (Cewe)</option>
+                            <option value="Fenrir">Fenrir (Cowo Savage)</option><option value="Aoede">Aoede (Cewe Soft)</option>
+                        </select>
+                        <button onclick="playTTS('${s.hook}. ${s.body}', ${idx})" id="b-v-${idx}" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black uppercase">Play Voice</button>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2"><span class="text-[9px] font-black text-slate-500 uppercase">Voice Script</span><div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">${s.body}</div></div>
+                        <div class="space-y-2"><span class="text-[9px] font-black text-yellow-500 uppercase">Visual Directing</span><div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200">${s.visual}</div></div>
+                    </div>
+                    <div class="p-6 bg-indigo-500/5 rounded-[2rem] space-y-2 border border-indigo-500/10">
+                        <span class="text-[9px] font-black text-pink-500 uppercase tracking-widest">Caption Media Sosial</span>
+                        <p class="text-[11px] opacity-70 leading-relaxed">${s.caption}</p>
+                        <p class="text-[11px] font-bold text-indigo-400 mt-2">${s.hashtags}</p>
+                    </div>
+                </div>`).join('');
+            lucide.createIcons();
+        }
+
+        async function playTTS(text, idx) {
+            const btn = document.getElementById('b-v-'+idx); btn.innerText = "...";
             try {
-                await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'history'), {
-                    productName: name.substring(0, 50),
-                    scripts: scripts,
-                    createdAt: Date.now()
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: document.getElementById('v-'+idx).value } } } } })
                 });
-            } catch(e) {}
+                const d = await res.json();
+                new Audio("data:audio/wav;base64," + d.candidates[0].content.parts[0].inlineData.data).play();
+            } catch (e) { alert("TTS Gagal"); }
+            finally { btn.innerText = "Play Voice"; }
         }
 
-        function loadHistory() {
-            if (!currentUser) return;
-            onSnapshot(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'history'), (snap) => {
-                const items = snap.docs.map(doc => ({id: doc.id, ...doc.data()})).sort((a,b) => b.createdAt - a.createdAt);
-                const container = document.getElementById('history-content');
-                container.innerHTML = items.length ? items.map(item => `
-                    <div class="glass-card p-6 rounded-3xl flex justify-between items-center group hover:border-indigo-500 transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400"><i data-lucide="video"></i></div>
-                            <div>
-                                <p class="font-black italic uppercase text-[11px] truncate w-32 md:w-64">${item.productName}</p>
-                                <p class="text-[9px] opacity-40 font-bold uppercase">${new Date(item.createdAt).toLocaleDateString()}</p>
-                            </div>
-                        </div>
-                        <button onclick="restoreProject('${item.id}')" class="bg-indigo-600 text-white px-5 py-2 rounded-xl text-[10px] font-black uppercase">BUKA</button>
-                    </div>`).join('') : '<p class="text-center py-20 opacity-20 font-black italic">Belum ada simpanan.</p>';
-                lucide.createIcons();
-            });
+        function saveLocal(s) {
+            let h = JSON.parse(localStorage.getItem('saved_scripts') || "[]");
+            h.unshift({scripts:s, date: new Date().toLocaleString()});
+            localStorage.setItem('saved_scripts', JSON.stringify(h.slice(0,10)));
         }
 
-        window.restoreProject = async (id) => {
-            const snap = await getDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'history', id));
-            if (snap.exists()) { renderResults(snap.data().scripts, 'santai'); switchTab('editor'); }
-        };
-
-        window.copyText = (t) => {
-            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            showNotification("BERHASIL DISALIN!");
-        };
-
-        window.showNotification = (msg, type = "success") => {
-            const n = document.getElementById('notification'); n.innerText = msg; n.classList.remove('hidden');
-            n.style.backgroundColor = type === 'error' ? '#ef4444' : '#4f46e5';
-            setTimeout(() => n.classList.add('hidden'), 2000);
-        };
-
+        function switchTab(t) {
+            document.getElementById('tab-editor').style.display = t === 'editor' ? 'grid' : 'none';
+            document.getElementById('tab-history').style.display = t === 'history' ? 'block' : 'none';
+            document.getElementById('btn-editor').classList.toggle('active', t === 'editor');
+            document.getElementById('btn-history').classList.toggle('active', t === 'history');
+            if(t === 'history') {
+                const h = JSON.parse(localStorage.getItem('saved_scripts') || "[]");
+                document.getElementById('tab-history').innerHTML = h.map(i => `<div class="glass-card p-6 rounded-3xl flex justify-between items-center mb-4"><p class="font-black italic text-xs uppercase text-white">Project ${i.date}</p><button onclick='renderResults(${JSON.stringify(i.scripts)});switchTab("editor")' class="bg-indigo-600 px-5 py-2 rounded-xl text-[10px] font-black uppercase">BUKA</button></div>`).join('');
+            }
+        }
         lucide.createIcons();
     </script>
 </body>
 </html>
-
