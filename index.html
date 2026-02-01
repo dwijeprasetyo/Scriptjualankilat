@@ -1,133 +1,196 @@
-<script>
-    const MASTER_SERIAL = "SK-9288-XPQ2-LNT0";
-    let apiKey = localStorage.getItem('user_api_key') || "";
-    let base64Image = "";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Jualan Pro - Jepengonten</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #070B14; color: #f8fafc; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .input-style { background-color: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); color: #f8fafc; outline: none; }
+        .input-style:focus { border-color: #4f46e5; }
+        .nav-btn.active { background-color: #4f46e5; color: white; }
+        .hidden-gate { display: none !important; }
+    </style>
+</head>
+<body class="pb-20">
 
-    // PROMPT ASLI KAMU (Jangan diubah agar outputnya pas)
-    const systemPrompt = `Kamu adalah Creative Director & Psikolog Marketing kelas dunia. Tugasmu membuat 10 script jualan viral. WAJIB Output JSON: [{"hook": "...", "body": "...", "visual": "...", "caption": "...", "hashtags": "..."}]`;
+    <div id="gatekeeper" class="fixed inset-0 z-[200] bg-[#070B14] flex items-center justify-center p-6">
+        <div class="glass-card p-10 rounded-[3rem] max-w-md w-full space-y-8 text-center">
+            <h2 class="font-black italic uppercase text-2xl tracking-tighter">License <span class="text-indigo-500">Activation</span></h2>
+            <div class="space-y-4 text-left">
+                <label class="text-[10px] font-bold opacity-50 ml-2">SERIAL NUMBER</label>
+                <input id="gate-pass" type="text" class="w-full input-style p-5 rounded-2xl text-center font-bold uppercase" placeholder="SK-XXXX-XXXX">
+                <label class="text-[10px] font-bold opacity-50 ml-2">GEMINI API KEY</label>
+                <input id="gate-key" type="password" class="w-full input-style p-5 rounded-2xl text-center text-xs" placeholder="AIza...">
+            </div>
+            <button onclick="unlockApp()" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase tracking-widest active:scale-95 transition-all">AKTIVASI SEKARANG</button>
+        </div>
+    </div>
 
-    function unlockApp() {
-        const sn = document.getElementById('gate-pass').value.trim().toUpperCase();
-        const ak = document.getElementById('gate-key').value.trim();
-        if(sn === MASTER_SERIAL && ak.startsWith("AIza")) {
-            localStorage.setItem('user_api_key', ak);
-            localStorage.setItem('is_activated', 'true');
-            location.reload();
-        } else { alert("Data Salah!"); }
-    }
+    <div id="app-content" class="hidden-gate">
+        <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md px-6 h-20 flex items-center justify-between border-b border-white/5">
+            <div class="flex flex-col leading-none">
+                <h1 class="font-black text-lg tracking-tighter uppercase italic">Script <span class="text-indigo-500">Jualan Kilat</span></h1>
+                <span class="text-[8px] font-bold uppercase opacity-50">by Jepengonten</span>
+            </div>
+            <div class="flex bg-black/40 p-1 rounded-xl">
+                <button onclick="switchTab('editor')" id="btn-editor" class="nav-btn active px-4 py-2 rounded-lg text-[9px] font-black uppercase">BUAT</button>
+                <button onclick="switchTab('history')" id="btn-history" class="nav-btn px-4 py-2 rounded-lg text-[9px] font-black uppercase opacity-60">SIMPAN</button>
+            </div>
+        </nav>
 
-    if(localStorage.getItem('is_activated')) {
-        document.getElementById('gatekeeper').remove();
-        document.getElementById('app-content').classList.remove('hidden-gate');
-    }
+        <main class="max-w-7xl mx-auto p-6 md:p-12">
+            <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-card rounded-[2.5rem] p-8 space-y-6">
+                        <div onclick="document.getElementById('inp-file').click()" class="border-2 border-dashed border-white/10 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden">
+                            <div id="drop-ui" class="text-center opacity-40"><i data-lucide="plus" class="mx-auto"></i><p class="text-[9px] font-black uppercase">Foto Produk</p></div>
+                            <img id="img-preview" class="absolute inset-0 w-full h-full object-cover hidden">
+                            <input type="file" id="inp-file" class="hidden" onchange="previewImage(this)">
+                        </div>
+                        <textarea id="inp-desc" class="w-full input-style rounded-2xl p-5 text-sm h-32 resize-none" placeholder="Apa keunggulan produkmu?"></textarea>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input id="inp-target" type="text" class="input-style rounded-xl p-4 text-xs font-bold" placeholder="Target Audiens">
+                            <select id="inp-duration" class="input-style rounded-xl p-4 text-xs font-bold">
+                                <option value="15 detik">15 Detik</option><option value="30 detik">30 Detik</option><option value="60 detik">60 Detik</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <select id="inp-tone" class="input-style rounded-xl p-4 text-xs font-bold">
+                                <option value="santai">Ramah & Akrab</option><option value="genz">Gen-Z (Gaul)</option><option value="nyinyir">Nyinyir</option>
+                            </select>
+                            <select id="inp-style" class="input-style rounded-xl p-4 text-xs font-bold">
+                                <option value="ugc">UGC Review</option><option value="story">Storytelling</option><option value="hardsell">Hard Selling</option>
+                            </select>
+                        </div>
+                        <button onclick="generateScripts()" id="btn-gen" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black uppercase text-[11px] tracking-widest shadow-2xl active:scale-95">BUAT 10 SCRIPT SIAP JUALAN</button>
+                    </div>
+                </div>
 
-    function logout() { localStorage.clear(); location.reload(); }
+                <div class="lg:col-span-7" id="results-list">
+                    <div class="text-center py-40 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem]">
+                        <p class="font-black uppercase tracking-widest text-sm italic">Script Muncul Di Sini</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-history" class="hidden-gate space-y-4 max-w-4xl mx-auto"></div>
+        </main>
+    </div>
 
-    function previewImage(i) {
-        const r = new FileReader();
-        r.onload = e => { 
-            document.getElementById('img-preview').src = e.target.result;
-            document.getElementById('img-preview').classList.remove('hidden');
-            document.getElementById('drop-ui').classList.add('hidden');
-            base64Image = e.target.result.split(',')[1];
-        };
-        r.readAsDataURL(i.files[0]);
-    }
+    <script>
+        const MASTER_SERIAL = "SK-9288-XPQ2-LNT0";
+        let apiKey = localStorage.getItem('user_api_key') || "";
+        let base64Image = "";
 
-    async function generateScripts() {
-        const btn = document.getElementById('btn-gen');
-        btn.disabled = true; btn.innerText = "MERACIK NASKAH...";
-        
-        // KITA PAKAI MODEL 2.5 FLASH PREVIEW (Sesuai kode awalmu)
-        const modelName = "gemini-2.5-flash-preview-09-2025";
-        
-        try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    contents: [{ 
-                        parts: [
-                            { text: `Produk: ${document.getElementById('inp-desc').value}, Audiens: ${document.getElementById('inp-target').value}, Durasi: ${document.getElementById('inp-duration').value}, Tone: ${document.getElementById('inp-tone').value}. Buat 10 script.` },
-                            ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])
-                        ] 
-                    }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { 
-                        responseMimeType: "application/json",
-                        temperature: 0.7 
-                    }
-                })
-            });
+        function unlockApp() {
+            const sn = document.getElementById('gate-pass').value.toUpperCase();
+            const ak = document.getElementById('gate-key').value;
+            if(sn === MASTER_SERIAL && ak.startsWith("AIza")) {
+                localStorage.setItem('user_api_key', ak);
+                localStorage.setItem('is_activated', 'true');
+                location.reload();
+            } else { alert("Data Salah!"); }
+        }
 
-            if (!res.ok) throw new Error();
+        if(localStorage.getItem('is_activated')) {
+            document.getElementById('gatekeeper').classList.add('hidden-gate');
+            document.getElementById('app-content').classList.remove('hidden-gate');
+        }
 
-            const data = await res.json();
-            const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
-            renderResults(scripts);
-            saveLocal(scripts);
-        } catch (e) {
-            // JIKA PREVIEW ERROR, KITA OTOMATIS COBA MODEL STABIL 1.5
-            console.log("Switching to fallback model...");
+        function logout() { localStorage.clear(); location.reload(); }
+
+        function previewImage(i) {
+            const r = new FileReader();
+            r.onload = e => { 
+                document.getElementById('img-preview').src = e.target.result;
+                document.getElementById('img-preview').classList.remove('hidden');
+                document.getElementById('drop-ui').classList.add('hidden');
+                base64Image = e.target.result.split(',')[1];
+            };
+            r.readAsDataURL(i.files[0]);
+        }
+
+        async function generateScripts() {
+            const btn = document.getElementById('btn-gen');
+            btn.disabled = true; btn.innerText = "PROSES...";
             try {
-                const fallback = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                const prompt = `Produk: ${document.getElementById('inp-desc').value}, Target: ${document.getElementById('inp-target').value}, Tone: ${document.getElementById('inp-tone').value}. Buat 10 script jualan viral. Output JSON saja: [{"hook":"", "body":"", "visual":"", "caption":"", "hashtags":""}]`;
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Produk: ${document.getElementById('inp-desc').value}. Buat 10 script jualan. JSON: [{"hook":"","body":"","visual":"","caption":"","hashtags":""}]` }] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])] }], generationConfig: { responseMimeType: "application/json" } })
                 });
-                const d = await fallback.json();
-                renderResults(JSON.parse(d.candidates[0].content.parts[0].text));
-            } catch (err2) {
-                alert("API Error! Cek limitasi API Key kamu di Google AI Studio.");
-            }
-        } finally {
-            btn.disabled = false; btn.innerText = "BUAT 10 SCRIPT SIAP JUALAN";
+                const data = await res.json();
+                const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
+                renderResults(scripts);
+                saveLocal(scripts);
+            } catch (e) { alert("API Error! Cek API Key."); }
+            finally { btn.disabled = false; btn.innerText = "BUAT 10 SCRIPT SIAP JUALAN"; lucide.createIcons(); }
+        }
+
+        function renderResults(scripts) {
+            document.getElementById('results-list').innerHTML = scripts.map((s, idx) => `
+                <div class="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg">#${idx+1}</span>
+                        <button onclick="navigator.clipboard.writeText('${s.hook}\\n${s.body}')" class="p-2 text-indigo-500"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    </div>
+                    <h2 class="text-2xl font-black italic">"${s.hook}"</h2>
+                    <div class="flex gap-4">
+                        <select id="v-${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold">
+                            <option value="Kore">Kore (Cowo)</option><option value="Leda">Leda (Cewe)</option>
+                            <option value="Fenrir">Fenrir (Cowo Savage)</option><option value="Aoede">Aoede (Cewe Soft)</option>
+                        </select>
+                        <button onclick="playTTS('${s.hook}. ${s.body}', ${idx})" id="b-v-${idx}" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black">PLAY VOICE</button>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">${s.body}</div>
+                        <div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200"><span class="text-yellow-500 font-bold uppercase">Visual:</span><br>${s.visual}</div>
+                    </div>
+                    <div class="p-6 bg-pink-500/5 rounded-[2rem] border border-pink-500/10">
+                        <span class="text-[9px] font-black text-pink-500 uppercase tracking-widest">Caption</span>
+                        <p class="text-[11px] opacity-70 mt-1">${s.caption}</p>
+                        <p class="text-[11px] font-bold text-indigo-400 mt-2">${s.hashtags}</p>
+                    </div>
+                </div>`).join('');
             lucide.createIcons();
         }
-    }
 
-    // FUNGSI RENDER DLL TETAP SAMA AGAR FITUR TIDAK HILANG
-    function renderResults(scripts) {
-        document.getElementById('results-list').innerHTML = scripts.map((s, idx) => `
-            <div class="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8">
-                <div class="flex justify-between items-center border-b border-white/5 pb-4">
-                    <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase italic">SCRIPT #${idx+1}</span>
-                    <button onclick="navigator.clipboard.writeText(\`HOOK: \${s.hook}\\nBODY: \${s.body}\`)" class="p-2 text-indigo-500"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                </div>
-                <h2 class="text-2xl font-black italic leading-tight">"\${s.hook}"</h2>
-                
-                <div class="flex flex-col md:flex-row gap-4">
-                    <select id="v-\${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold">
-                        <option value="Kore">Kore (Cowo)</option>
-                        <option value="Leda">Leda (Cewe)</option>
-                        <option value="Fenrir">Fenrir (Cowo Savage)</option>
-                        <option value="Aoede">Aoede (Cewe Soft)</option>
-                    </select>
-                    <button onclick="playTTS('\${s.hook}. \${s.body}', \${idx})" id="b-v-\${idx}" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black uppercase">Play Suara</button>
-                </div>
+        async function playTTS(text, idx) {
+            const btn = document.getElementById('b-v-'+idx); btn.innerText = "...";
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: document.getElementById('v-'+idx).value } } } } })
+                });
+                const d = await res.json();
+                new Audio("data:audio/wav;base64," + d.candidates[0].content.parts[0].inlineData.data).play();
+            } catch (e) { alert("TTS Gagal"); }
+            finally { btn.innerText = "PLAY VOICE"; }
+        }
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <span class="text-[9px] font-black text-slate-500 uppercase">Script Suara</span>
-                        <div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">\${s.body}</div>
-                    </div>
-                    <div class="space-y-2">
-                        <span class="text-[9px] font-black text-yellow-500 uppercase">Visual Directing</span>
-                        <div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200">\${s.visual}</div>
-                    </div>
-                </div>
+        function saveLocal(s) {
+            let h = JSON.parse(localStorage.getItem('saved_v2') || "[]");
+            h.unshift({scripts:s, date: new Date().toLocaleTimeString()});
+            localStorage.setItem('saved_v2', JSON.stringify(h.slice(0,10)));
+        }
 
-                <div class="p-6 bg-indigo-500/5 rounded-[2rem] space-y-2 border border-indigo-500/10">
-                    <span class="text-[9px] font-black text-pink-500 uppercase">Caption</span>
-                    <p class="text-[11px] opacity-70">\${s.caption}</p>
-                    <p class="text-[11px] font-bold text-indigo-400 mt-2">\${s.hashtags}</p>
-                </div>
-            </div>`).join('');
+        function switchTab(t) {
+            document.getElementById('tab-editor').classList.toggle('hidden-gate', t!=='editor');
+            document.getElementById('tab-history').classList.toggle('hidden-gate', t!=='history');
+            document.getElementById('btn-editor').classList.toggle('active', t==='editor');
+            document.getElementById('btn-history').classList.toggle('active', t==='history');
+            if(t==='history') {
+                const h = JSON.parse(localStorage.getItem('saved_v2') || "[]");
+                document.getElementById('tab-history').innerHTML = h.map(i => `<div class="glass-card p-6 rounded-3xl flex justify-between items-center"><p class="font-black italic text-xs uppercase">Simpanan ${i.date}</p><button onclick='renderResults(${JSON.stringify(i.scripts)});switchTab("editor")' class="bg-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase">BUKA</button></div>`).join('');
+            }
+        }
         lucide.createIcons();
-    }
-
-    // PlayTTS, saveLocal, switchTab (Gunakan yang di kode sebelumnya)
-</script>
+    </script>
+</body>
+</html>
