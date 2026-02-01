@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Jualan Kilat - Pro</title>
+    <title>Script Jualan Kilat - Full Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #070B14; color: #f8fafc; transition: all 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: #070B14; color: #f8fafc; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .input-style { background-color: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); color: #f8fafc; }
+        .nav-btn.active { background-color: #4f46e5; color: white; }
         .hidden-gate { display: none !important; }
-        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-20 overflow-x-hidden">
 
     <div id="gatekeeper" class="fixed inset-0 z-[200] bg-[#070B14] flex items-center justify-center p-6">
         <div class="glass-card p-10 rounded-[3rem] max-w-md w-full space-y-8 text-center border-indigo-500/20">
@@ -25,49 +25,79 @@
                 <input id="gate-pass" type="text" class="w-full input-style p-5 rounded-2xl text-center font-bold uppercase" placeholder="SERIAL NUMBER">
                 <input id="gate-key" type="password" class="w-full input-style p-5 rounded-2xl text-center text-xs" placeholder="GEMINI API KEY (AIza...)">
             </div>
-            <button onclick="unlockApp()" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase text-[11px] tracking-widest active:scale-95 transition-all">Aktivasi</button>
+            <button onclick="unlockApp()" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase tracking-widest active:scale-95 transition-all">AKTIVASI</button>
         </div>
     </div>
 
     <div id="app-content" class="hidden-gate">
-        <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md px-6 h-20 flex items-center justify-between border-b border-white/5">
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 p-2 rounded-xl"><i data-lucide="zap" class="text-white w-4 h-4"></i></div>
-                <h1 class="font-black text-lg tracking-tighter uppercase italic">Script <span class="text-indigo-500">Jualan Kilat</span></h1>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="flex bg-black/40 p-1 rounded-xl">
-                    <button onclick="switchTab('editor')" id="btn-editor" class="px-4 py-2 rounded-lg text-[10px] font-black uppercase bg-indigo-600 text-white">BUAT</button>
-                    <button onclick="switchTab('history')" id="btn-history" class="px-4 py-2 rounded-lg text-[10px] font-black uppercase opacity-60">SIMPAN</button>
+        <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md px-4 h-20 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="bg-indigo-600 p-2 rounded-xl shrink-0"><i data-lucide="zap" class="text-white fill-white w-4 h-4"></i></div>
+                <div class="flex flex-col leading-none truncate">
+                    <h1 class="font-black text-base md:text-lg tracking-tighter uppercase italic truncate">Script <span class="text-indigo-500">Jualan Kilat</span></h1>
+                    <span class="text-[8px] font-bold uppercase opacity-50 tracking-[0.2em] mt-0.5">by Jepengonten</span>
                 </div>
-                <button onclick="logout()" class="p-2 text-red-500"><i data-lucide="power" class="w-4 h-4"></i></button>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="flex bg-slate-900/20 p-1 rounded-xl border border-white/5">
+                    <button onclick="switchTab('editor')" id="btn-editor" class="nav-btn active px-3 py-2 rounded-lg text-[9px] font-black uppercase">BUAT</button>
+                    <button onclick="switchTab('history')" id="btn-history" class="nav-btn px-3 py-2 rounded-lg text-[9px] font-black uppercase opacity-60">SIMPAN</button>
+                </div>
+                <button onclick="logout()" class="p-2 text-red-500/50"><i data-lucide="power" class="w-4 h-4"></i></button>
             </div>
         </nav>
 
-        <main class="max-w-7xl mx-auto p-6 md:p-12">
-            <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <main class="max-w-7xl mx-auto p-4 md:p-8">
+            <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-5 space-y-6">
-                    <div class="glass-card rounded-[2.5rem] p-8 space-y-6">
+                    <div class="glass-card rounded-[2.5rem] p-6 md:p-8 space-y-6 lg:sticky lg:top-28">
                         <div class="space-y-4">
-                            <div onclick="document.getElementById('inp-file').click()" class="border-2 border-dashed border-white/10 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden">
-                                <div id="drop-ui" class="text-center opacity-40"><i data-lucide="plus" class="mx-auto mb-1"></i><p class="text-[9px] font-black uppercase">Foto Produk</p></div>
+                            <div onclick="document.getElementById('inp-file').click()" class="border-2 border-dashed border-slate-500/30 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden">
+                                <div id="drop-ui" class="text-center opacity-40"><i data-lucide="plus" class="mx-auto mb-1"></i><p class="text-[9px] font-black uppercase">Pilih Foto Produk</p></div>
                                 <img id="img-preview" class="absolute inset-0 w-full h-full object-cover hidden">
                                 <input type="file" id="inp-file" class="hidden" onchange="previewImage(this)">
                             </div>
-                            <textarea id="inp-desc" class="w-full input-style rounded-2xl p-5 text-sm h-32 resize-none outline-none focus:border-indigo-500" placeholder="Detail produk..."></textarea>
+                            <textarea id="inp-desc" class="w-full input-style rounded-[1.5rem] p-5 text-sm h-28 resize-none outline-none focus:border-indigo-500" placeholder="Detail keunggulan produk..."></textarea>
+                            
                             <div class="grid grid-cols-2 gap-4">
-                                <select id="inp-tone" class="input-style rounded-xl p-4 text-xs font-bold uppercase"><option value="santai">Santai</option><option value="genz">Gen-Z</option><option value="nyinyir">Nyinyir</option></select>
-                                <select id="inp-style" class="input-style rounded-xl p-4 text-xs font-bold uppercase"><option value="ugc">UGC</option><option value="selling">Hardsell</option></select>
+                                <input id="inp-target" type="text" class="w-full input-style rounded-xl p-4 text-xs font-bold uppercase" placeholder="Target Audiens">
+                                <select id="inp-duration" class="w-full input-style rounded-xl p-4 text-xs font-bold uppercase">
+                                    <option value="15 detik">15 Detik</option>
+                                    <option value="30 detik">30 Detik</option>
+                                    <option value="60 detik">60 Detik</option>
+                                    <option value="90 detik">90 Detik</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <select id="inp-tone" class="w-full input-style rounded-xl p-4 text-xs font-bold uppercase">
+                                    <option value="santai">Ramah & Akrab</option>
+                                    <option value="genz">Gen-Z (Gaul)</option>
+                                    <option value="nyinyir">Nyinyir / Satir</option>
+                                    <option value="emosional">Emosional</option>
+                                </select>
+                                <select id="inp-style" class="w-full input-style rounded-xl p-4 text-xs font-bold uppercase">
+                                    <option value="ugc review">UGC Review</option>
+                                    <option value="storytelling">Storytelling</option>
+                                    <option value="hardselling">Hard Selling</option>
+                                    <option value="product review">Product Review</option>
+                                </select>
                             </div>
                         </div>
-                        <button onclick="generateScripts()" id="btn-gen" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black uppercase text-[11px] tracking-widest active:scale-95">Buat 10 Script</button>
+                        <button onclick="generateScripts()" id="btn-gen" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black uppercase tracking-widest text-[11px] shadow-2xl active:scale-95 transition-all">BUAT 10 SCRIPT SIAP JUALAN</button>
                     </div>
                 </div>
-                <div class="lg:col-span-7 space-y-8" id="results-list">
-                    <div class="text-center py-40 opacity-20"><i data-lucide="sparkles" class="w-16 h-16 mx-auto mb-4"></i><p class="font-black uppercase tracking-widest text-sm">Siap Jualan?</p></div>
+
+                <div class="lg:col-span-7" id="results-list">
+                    <div id="results-anchor" class="h-1"></div>
+                    <div class="text-center py-40 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem]">
+                        <i data-lucide="zap" class="w-16 h-16 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-black uppercase italic tracking-tight">Script Muncul Di Sini</h3>
+                    </div>
                 </div>
             </div>
-            <div id="tab-history" class="hidden-gate max-w-4xl mx-auto space-y-6"></div>
+
+            <div id="tab-history" class="hidden-gate max-w-4xl mx-auto space-y-4"></div>
         </main>
     </div>
 
@@ -76,12 +106,16 @@
         let apiKey = localStorage.getItem('user_api_key') || "";
         let base64Image = "";
 
+        const systemPrompt = `Kamu adalah Creative Director & Psikolog Marketing kelas dunia. Tugasmu membuat 10 script jualan viral. WAJIB Output JSON: [{"hook": "...", "body": "...", "visual": "...", "caption": "...", "hashtags": "..."}]`;
+
         function unlockApp() {
-            if(document.getElementById('gate-pass').value.toUpperCase() === MASTER_SERIAL) {
-                localStorage.setItem('user_api_key', document.getElementById('gate-key').value);
+            const sn = document.getElementById('gate-pass').value.trim().toUpperCase();
+            const ak = document.getElementById('gate-key').value.trim();
+            if(sn === MASTER_SERIAL && ak.startsWith("AIza")) {
+                localStorage.setItem('user_api_key', ak);
                 localStorage.setItem('is_activated', 'true');
                 location.reload();
-            } else { alert("Serial Salah!"); }
+            } else { alert("Data Salah!"); }
         }
 
         if(localStorage.getItem('is_activated')) {
@@ -96,6 +130,7 @@
             r.onload = e => { 
                 document.getElementById('img-preview').src = e.target.result;
                 document.getElementById('img-preview').classList.remove('hidden');
+                document.getElementById('drop-ui').classList.add('hidden');
                 base64Image = e.target.result.split(',')[1];
             };
             r.readAsDataURL(i.files[0]);
@@ -104,13 +139,13 @@
         async function generateScripts() {
             const btn = document.getElementById('btn-gen');
             btn.disabled = true; btn.innerText = "PROSES...";
-            
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Produk: ${document.getElementById('inp-desc').value}. Buat 10 script jualan viral. Output JSON: [{"hook":"","body":"","visual":"","caption":"","hashtags":""}]` }, ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])] }],
+                        contents: [{ parts: [{ text: `Produk: ${document.getElementById('inp-desc').value}, Audiens: ${document.getElementById('inp-target').value}, Durasi: ${document.getElementById('inp-duration').value}, Tone: ${document.getElementById('inp-tone').value}.` }, ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
                         generationConfig: { responseMimeType: "application/json" }
                     })
                 });
@@ -118,32 +153,45 @@
                 const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
                 renderResults(scripts);
                 saveLocal(scripts);
-            } catch (e) { alert("API Error! Cek API Key."); }
-            finally { btn.disabled = false; btn.innerText = "Buat 10 Script"; lucide.createIcons(); }
+            } catch (e) { alert("API Error! Cek Key Gemini kamu."); }
+            finally { btn.disabled = false; btn.innerText = "BUAT 10 SCRIPT SIAP JUALAN"; lucide.createIcons(); }
         }
 
         function renderResults(scripts) {
             document.getElementById('results-list').innerHTML = scripts.map((s, idx) => `
-                <div class="glass-card rounded-[2.5rem] p-8 space-y-6">
-                    <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase">Script #${idx+1}</span>
+                <div class="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase">SCRIPT #${idx+1}</span>
+                        <button onclick="navigator.clipboard.writeText(\`${s.hook}\\n${s.body}\`)" class="p-2 text-indigo-500"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    </div>
                     <h2 class="text-2xl font-black italic leading-tight">"${s.hook}"</h2>
+                    
                     <div class="flex flex-col md:flex-row gap-4">
-                        <select id="v-${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold"><option value="Kore">Kore (Cowo)</option><option value="Leda">Leda (Cewe)</option></select>
-                        <button onclick="playTTS('${s.hook}. ${s.body}', ${idx})" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black uppercase">Play Suara</button>
+                        <select id="v-${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold">
+                            <option value="Kore">Kore (Cowo)</option><option value="Leda">Leda (Cewe)</option>
+                            <option value="Fenrir">Fenrir (Cowo Savage)</option><option value="Aoede">Aoede (Cewe Soft)</option>
+                        </select>
+                        <button onclick="playTTS('${s.hook}. ${s.body}', ${idx})" id="b-v-${idx}" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black uppercase">Play Suara</button>
                     </div>
+
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">${s.body}</div>
-                        <div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200"><span class="font-black text-yellow-500">VISUAL:</span><br>${s.visual}</div>
+                        <div class="space-y-2"><span class="text-[9px] font-black text-slate-500 uppercase">Script Suara</span><div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">${s.body}</div></div>
+                        <div class="space-y-2"><span class="text-[9px] font-black text-yellow-500 uppercase">Visual Directing</span><div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200">${s.visual}</div></div>
                     </div>
-                    <div class="p-6 bg-white/5 rounded-3xl space-y-2 border border-white/5">
+
+                    <div class="p-6 bg-indigo-500/5 rounded-[2rem] space-y-2 border border-indigo-500/10">
+                        <span class="text-[9px] font-black text-pink-500 uppercase">Caption</span>
                         <p class="text-[11px] opacity-70">${s.caption}</p>
-                        <p class="text-[11px] font-bold text-indigo-400">${s.hashtags}</p>
+                        <p class="text-[11px] font-bold text-indigo-400 mt-2">${s.hashtags}</p>
                     </div>
                 </div>`).join('');
             lucide.createIcons();
+            document.getElementById('results-anchor').scrollIntoView({ behavior: 'smooth' });
         }
 
         async function playTTS(text, idx) {
+            const btn = document.getElementById('b-v-'+idx);
+            btn.innerText = "...";
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-preview-tts:generateContent?key=${apiKey}`, {
                     method: 'POST',
@@ -153,24 +201,26 @@
                 const d = await res.json();
                 const audio = new Audio("data:audio/wav;base64," + d.candidates[0].content.parts[0].inlineData.data);
                 audio.play();
-            } catch (e) { alert("TTS Gagal"); }
+            } catch (e) { alert("Gagal memuat suara."); }
+            finally { btn.innerText = "Play Suara"; }
         }
 
         function saveLocal(s) {
-            let h = JSON.parse(localStorage.getItem('kh') || "[]");
-            h.unshift({scripts:s, date: new Date().toLocaleDateString()});
-            localStorage.setItem('kh', JSON.stringify(h.slice(0,10)));
+            let h = JSON.parse(localStorage.getItem('my_saved_scripts') || "[]");
+            h.unshift({scripts:s, date: new Date().toLocaleString()});
+            localStorage.setItem('my_saved_scripts', JSON.stringify(h.slice(0,10)));
         }
 
         function switchTab(t) {
             document.getElementById('tab-editor').classList.toggle('hidden-gate', t!=='editor');
             document.getElementById('tab-history').classList.toggle('hidden-gate', t!=='history');
+            document.getElementById('btn-editor').classList.toggle('active', t==='editor');
+            document.getElementById('btn-history').classList.toggle('active', t==='history');
             if(t==='history') {
-                const h = JSON.parse(localStorage.getItem('kh') || "[]");
-                document.getElementById('tab-history').innerHTML = h.map(i => `<div class="glass-card p-6 rounded-3xl flex justify-between items-center"><p class="font-black italic text-xs uppercase">Simpanan ${i.date}</p><button onclick='renderResults(${JSON.stringify(i.scripts)});switchTab("editor")' class="bg-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase">Buka</button></div>`).join('');
+                const h = JSON.parse(localStorage.getItem('my_saved_scripts') || "[]");
+                document.getElementById('tab-history').innerHTML = h.map(i => `<div class="glass-card p-6 rounded-3xl flex justify-between items-center"><p class="font-black italic text-xs uppercase text-white">Project ${i.date}</p><button onclick='renderResults(${JSON.stringify(i.scripts)});switchTab("editor")' class="bg-indigo-600 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase">BUKA</button></div>`).join('');
             }
         }
-
         lucide.createIcons();
     </script>
 </body>
