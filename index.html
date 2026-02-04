@@ -3,207 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Jualan Kilat - Pro Offline</title>
+    <title>PsycoScript Pro - Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #070B14; color: #f8fafc; transition: 0.3s; }
-        .light-theme { --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; --border: rgba(0,0,0,0.1); }
-        .dark-theme { --bg: #070B14; --card: rgba(30, 41, 59, 0.7); --text: #f8fafc; --border: rgba(255,255,255,0.05); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
-        body.light-theme { background-color: var(--bg); color: var(--text); }
-        .glass-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid var(--border); }
-        .input-style { background: rgba(30, 41, 59, 0.1); border: 1px solid var(--border); color: inherit; }
-        .nav-btn.active { background-color: #4f46e5; color: white; }
-        .hidden-app { display: none !important; }
-        ::-webkit-scrollbar { display: none; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            scroll-behavior: smooth;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #c084fc, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-box {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        }
+
+        .nav-glass {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2s infinite;
+        }
     </style>
 </head>
-<body class="pb-20">
+<body class="overflow-x-hidden">
 
-    <div id="gatekeeper" class="fixed inset-0 z-[200] bg-[#070B14] flex items-center justify-center p-6">
-        <div class="glass-card p-10 rounded-[3rem] max-w-md w-full space-y-8 text-center border-indigo-500/20">
-            <h2 class="font-black italic uppercase text-2xl">Activation</h2>
-            <div class="space-y-4">
-                <input id="gate-pass" type="text" class="w-full input-style p-5 rounded-2xl text-center font-bold" placeholder="SERIAL NUMBER">
-                <input id="gate-key" type="password" class="w-full input-style p-5 rounded-2xl text-center text-xs" placeholder="GEMINI API KEY">
-            </div>
-            <button onclick="unlockApp()" class="w-full bg-indigo-600 text-white py-5 rounded-[2rem] font-black uppercase">AKTIVASI</button>
-        </div>
-    </div>
-
-    <div id="app-content" class="hidden-app">
-        <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md px-4 h-20 flex items-center justify-between border-b border-white/5">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-[100] nav-glass">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 p-2 rounded-xl"><i data-lucide="zap" class="text-white fill-white w-4 h-4"></i></div>
-                <h1 class="font-black text-lg tracking-tighter uppercase italic">Script <span class="text-indigo-500">Jualan Kilat</span></h1>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="logout()" class="p-2 opacity-50"><i data-lucide="power" class="w-4 h-4"></i></button>
-                <div class="flex bg-black/20 p-1 rounded-xl">
-                    <button onclick="switchTab('editor')" id="btn-editor" class="nav-btn active px-3 py-2 rounded-lg text-[9px] font-black uppercase">BUAT</button>
-                    <button onclick="switchTab('history')" id="btn-history" class="nav-btn px-3 py-2 rounded-lg text-[9px] font-black uppercase opacity-60">SIMPAN</button>
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-brain text-white text-xl"></i>
                 </div>
+                <span class="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">PsycoScript Pro</span>
             </div>
-        </nav>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">Method</a>
+                <a href="#testi" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">Testimonial</a>
+                <a href="#faq" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">FAQ</a>
+                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="px-6 py-2.5 rounded-xl bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-indigo-400 hover:text-white transition-all">Get Access</a>
+            </div>
+        </div>
+    </nav>
 
-        <main class="max-w-7xl mx-auto p-4 md:p-8">
-            <div id="tab-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-5 space-y-6">
-                    <div class="glass-card rounded-[2.5rem] p-6 md:p-8 space-y-6">
-                        <div class="space-y-4">
-                            <div onclick="document.getElementById('inp-file').click()" class="border-2 border-dashed border-slate-500/30 rounded-3xl h-32 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden">
-                                <div id="dropzone-ui"><i data-lucide="plus" class="mx-auto mb-2 opacity-30"></i><p class="text-[9px] font-black uppercase opacity-40">Pilih Foto Produk</p></div>
-                                <img id="img-preview" class="absolute inset-0 w-full h-full object-cover hidden">
-                                <input type="file" id="inp-file" class="hidden" accept="image/*" onchange="previewImage(this)">
-                            </div>
-                            <textarea id="inp-desc" class="w-full input-style rounded-[1.5rem] p-5 text-sm h-28 resize-none" placeholder="Detail keunggulan produk..."></textarea>
-                            <div class="grid grid-cols-2 gap-4">
-                                <input id="inp-target" type="text" class="input-style rounded-xl p-4 text-xs font-bold" placeholder="Target Audiens">
-                                <select id="inp-duration" class="input-style rounded-xl p-4 text-xs font-bold">
-                                    <option value="15 detik">15 Detik</option><option value="30 detik">30 Detik</option><option value="60 detik">60 Detik</option>
-                                </select>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <select id="inp-tone" class="input-style rounded-xl p-4 text-xs font-bold">
-                                    <option value="santai">Ramah & Akrab</option><option value="genz">Gen-Z (Gaul)</option><option value="nyinyir">Nyinyir</option>
-                                </select>
-                                <select id="inp-style" class="input-style rounded-xl p-4 text-xs font-bold">
-                                    <option value="ugc review">UGC Review</option><option value="storytelling">Storytelling</option><option value="hardselling">Hard Selling</option>
-                                </select>
-                            </div>
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-32 pb-10 px-4">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-600/20 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-600/10 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[10px] font-bold uppercase tracking-widest">
+                The Science of StorySelling
+            </div>
+            <h1 class="text-4xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
+                Berhenti Jualan, <br>Mulailah <span class="gradient-text">Memikat Hati.</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto">
+                Bikin script konten yang bikin audience gak bisa skip, tanpa harus pusing belajar copywriting bertahun-tahun.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="cta-button px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl text-white">
+                    Amankan Akses Sekarang
+                </a>
+                <a href="#about" class="text-slate-400 hover:text-white transition-all text-sm font-medium">
+                    Pelajari Rahasianya <i class="fa-solid fa-arrow-down ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Authority Section -->
+    <section id="about" class="py-24 px-4 bg-slate-950/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="aspect-square rounded-[3rem] overflow-hidden border border-slate-800">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1000" alt="Philipp Humm" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 glass-box p-6 rounded-3xl border-indigo-500/30">
+                        <p class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-1">Methodology by</p>
+                        <p class="text-xl font-black">Philipp Humm</p>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 text-white leading-tight">Membangun Kepercayaan Lewat <span class="text-indigo-400">Cerita</span></h2>
+                    
+                    <!-- Quote Philipp Humm Bahasa Indonesia -->
+                    <div class="mb-8 p-6 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-r-2xl italic">
+                        <p class="text-slate-300 text-lg mb-2">"Data hanya memberi tahu, tapi cerita lah yang menjual. Logika membuat orang berpikir, namun emosi lah yang membuat mereka bertindak."</p>
+                        <p class="text-xs font-bold uppercase tracking-widest text-indigo-400">— Philipp Humm</p>
+                    </div>
+
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Banyak pengajar di luar sana hanya fokus pada teknik promosi yang agresif. Namun, <span class="text-white font-bold">Philipp Humm</span>, seorang pakar bercerita tingkat dunia, telah menemukan kunci utama: <span class="text-indigo-400 font-semibold italic">Otak manusia dirancang untuk merespons cerita, bukan iklan.</span>
+                    </p>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        Metode miliknya menggabungkan psikologi perilaku dengan seni narasi yang elegan. Melalui <span class="text-purple-400 font-bold">PsycoScript Pro</span>, kami mengadopsi struktur ini agar audiens Anda merasa didengar dan terbantu, sehingga konversi terjadi secara natural tanpa paksaan.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-slate-800">
+                        <div>
+                            <p class="text-2xl font-black text-indigo-400">100%</p>
+                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Psikologi Murni</p>
                         </div>
-                        <button onclick="generateScripts()" id="btn-generate" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black uppercase text-[11px] tracking-widest shadow-2xl active:scale-95">BUAT 10 SCRIPT SIAP JUALAN</button>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-7" id="results-list">
-                    <div class="text-center py-40 opacity-20 border-2 border-dashed border-white/10 rounded-[3rem]">
-                        <h3 class="text-xl font-black uppercase italic tracking-tight">Script Muncul Di Sini</h3>
+                        <div>
+                            <p class="text-2xl font-black text-purple-400">0%</p>
+                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Hard-Selling Kasar</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div id="tab-history" class="hidden max-w-4xl mx-auto space-y-4"></div>
-        </main>
-    </div>
-
-    <script>
-        const MASTER_SERIAL = "SK-9288-XPQ2-LNT0";
-        let apiKey = localStorage.getItem('user_api_key') || "";
-        let base64Image = "";
-
-        function unlockApp() {
-            const sn = document.getElementById('gate-pass').value.trim().toUpperCase();
-            const ak = document.getElementById('gate-key').value.trim();
-            if(sn === MASTER_SERIAL && ak.startsWith("AIza")) {
-                localStorage.setItem('user_api_key', ak);
-                localStorage.setItem('is_activated', 'true');
-                location.reload();
-            } else { alert("Data Salah!"); }
-        }
-
-        if(localStorage.getItem('is_activated')) {
-            document.getElementById('gatekeeper').remove();
-            document.getElementById('app-content').classList.remove('hidden-app');
-        }
-
-        function logout() { localStorage.clear(); location.reload(); }
-
-        function previewImage(i) {
-            const r = new FileReader();
-            r.onload = e => { 
-                document.getElementById('img-preview').src = e.target.result;
-                document.getElementById('img-preview').classList.remove('hidden');
-                document.getElementById('dropzone-ui').classList.add('hidden');
-                base64Image = e.target.result.split(',')[1];
-            };
-            r.readAsDataURL(i.files[0]);
-        }
-
-        async function generateScripts() {
-            const btn = document.getElementById('btn-generate');
-            btn.disabled = true; btn.innerText = "PROSES...";
-            const prompt = `Produk: ${document.getElementById('inp-desc').value}, Target: ${document.getElementById('inp-target').value}, Tone: ${document.getElementById('inp-tone').value}, Style: ${document.getElementById('inp-style').value}. Buat 10 script jualan viral. Output JSON: [{"hook":"","body":"","visual":"","caption":"","hashtags":""}]`;
+    <!-- Language & TTS Advantage Section -->
+    <section class="py-24 px-4 bg-gradient-to-b from-slate-950/50 to-slate-900/20">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-6">Kenali Keunggulan <span class="gradient-text">Bahasa Lokal</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto italic">"Bukan sekadar kata-kata, tapi rasa yang sampai ke hati audiens."</p>
+            </div>
             
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }, ...(base64Image ? [{inlineData:{mimeType:"image/png",data:base64Image}}] : [])] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
-                });
-                const data = await res.json();
-                const scripts = JSON.parse(data.candidates[0].content.parts[0].text);
-                renderResults(scripts);
-                saveLocal(scripts);
-            } catch (e) { alert("Error API!"); }
-            finally { btn.disabled = false; btn.innerText = "BUAT 10 SCRIPT SIAP JUALAN"; lucide.createIcons(); }
-        }
-
-        function renderResults(scripts) {
-            document.getElementById('results-list').innerHTML = scripts.map((s, idx) => `
-                <div class="glass-card rounded-[2.5rem] p-8 space-y-6 mb-8 border border-white/5 shadow-2xl">
-                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
-                        <span class="bg-indigo-600 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase italic text-white">REKOMENDASI #${idx+1}</span>
-                        <button onclick="navigator.clipboard.writeText('${s.hook}\\n${s.body}')" class="text-indigo-500"><i data-lucide="copy" class="w-4 h-4"></i></button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Point 1 -->
+                <div class="glass-box p-10 rounded-[2.5rem] border-indigo-500/20 hover:border-indigo-500/40 transition-all">
+                    <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-microphone-lines text-2xl text-indigo-400"></i>
                     </div>
-                    <h2 class="text-2xl font-black italic leading-tight">"${s.hook}"</h2>
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <select id="v-${idx}" class="input-style p-3 rounded-xl text-[10px] flex-1 font-bold uppercase">
-                            <option value="Kore">Kore (Cowo)</option><option value="Leda">Leda (Cewe)</option>
-                            <option value="Fenrir">Fenrir (Cowo Savage)</option><option value="Aoede">Aoede (Cewe Soft)</option>
-                        </select>
-                        <button onclick="playTTS('${s.hook}. ${s.body}', ${idx})" id="b-v-${idx}" class="bg-indigo-600 px-6 py-3 rounded-xl text-[10px] font-black uppercase">Play Voice</button>
+                    <h3 class="text-xl font-bold text-white mb-4">TTS Ultra-Natural (Anti-Robot)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Lupakan suara asisten virtual yang kaku. AI kami menggunakan teknologi <span class="text-indigo-300 font-semibold">Neural Speech</span> yang meniru intonasi manusia asli—lengkap dengan jeda napas dan penekanan emosi yang tepat sesuai konteks script Anda.
+                    </p>
+                </div>
+                <!-- Point 2 -->
+                <div class="glass-box p-10 rounded-[2.5rem] border-purple-500/20 hover:border-purple-500/40 transition-all">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-comments text-2xl text-purple-400"></i>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2"><span class="text-[9px] font-black text-slate-500 uppercase">Voice Script</span><div class="p-5 bg-black/40 rounded-2xl text-sm italic opacity-80 border border-white/5">${s.body}</div></div>
-                        <div class="space-y-2"><span class="text-[9px] font-black text-yellow-500 uppercase">Visual Directing</span><div class="p-5 bg-yellow-500/5 rounded-2xl text-[11px] border border-yellow-500/20 text-yellow-200">${s.visual}</div></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Dialek Daerah: Ngapak hingga Medan</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Script tidak dibuat dengan bahasa baku yang membosankan. AI kami mengerti logat lokal seperti <span class="text-purple-300 font-semibold italic">Ngapak, Jawa Medhok, Sunda, Medan, Suroboyoan</span>, hingga gaya bahasa santai khas anak muda Indonesia yang bikin konten Anda terasa lebih "relate" dan akrab.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest animate-pulse-soft">
+                    <i class="fa-solid fa-bolt"></i> 98% Audiens Tidak Menyadari Ini Adalah AI
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain & Desire Section -->
+    <section class="py-24 px-4">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight text-white">Sudah Capek Ngonten <br>Tapi <span class="text-red-500">Zonk?</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
+                    <i class="fa-solid fa-cloud-rain text-3xl text-red-400 mb-4"></i>
+                    <p class="text-sm text-slate-400 italic">"Udah bikin konten capek-capek, tapi yang nonton cuma dikit banget."</p>
+                </div>
+                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
+                    <i class="fa-solid fa-battery-empty text-3xl text-red-400 mb-4"></i>
+                    <p class="text-sm text-slate-400 italic">"Bingung mau ngomong apa, akhirnya cuma joget-joget nggak jelas."</p>
+                </div>
+                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
+                    <i class="fa-solid fa-comment-slash text-3xl text-red-400 mb-4"></i>
+                    <p class="text-sm text-slate-400 italic">"Ada yang nonton, tapi nggak ada satupun yang nanya harga."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto glass-box p-12 rounded-[3rem] border-indigo-500/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8">
+                <i class="fa-solid fa-sun text-6xl text-indigo-500/10"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-6 text-white">Bayangkan Jika...</h3>
+            <ul class="space-y-4">
+                <li class="flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                    <p class="text-slate-300">Setiap script yang kamu buat punya <span class="text-white font-bold">Hook</span> yang bikin orang berhenti scrolling.</p>
+                </li>
+                <li class="flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                    <p class="text-slate-300">Audiens merasa sangat <span class="text-white font-bold">Relate</span> dengan ceritamu dan percaya padamu.</p>
+                </li>
+                <li class="flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                    <p class="text-slate-300">Link bio kamu banjir klik secara organik setiap kali kamu posting konten baru.</p>
+                </li>
+            </ul>
+            <div class="mt-10 p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10 text-center">
+                <p class="text-sm text-indigo-300 font-medium">Itulah misi utama <b>PsycoScript Pro</b>—sebuah asisten cerdas untuk membantu Anda menulis script sekelas ahli dalam sekejap.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testi" class="py-24 px-4 bg-slate-950/30">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16 uppercase tracking-widest text-slate-500 text-sm">Apa Kata Teman-teman Kita?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testi 1 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-indigo-600/20 flex items-center justify-center font-bold text-indigo-400 text-sm">AN</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Andini Nurfajriah</p>
+                            <p class="text-[10px] text-slate-500">Ibu Rumah Tangga (Jualan Daster)</p>
+                        </div>
                     </div>
-                    <div class="p-6 bg-indigo-500/5 rounded-[2rem] space-y-2 border border-indigo-500/10">
-                        <span class="text-[9px] font-black text-pink-500 uppercase tracking-widest">Caption Media Sosial</span>
-                        <p class="text-[11px] opacity-70 leading-relaxed">${s.caption}</p>
-                        <p class="text-[11px] font-bold text-indigo-400 mt-2">${s.hashtags}</p>
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Awalnya gaptek banget soal script. Pake ini tinggal masukkan nama barang, script-nya langsung jadi. Pas dipraktekin di TikTok, eh ada yang check out beneran!"</p>
+                </div>
+                <!-- Testi 2 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-600/20 flex items-center justify-center font-bold text-purple-400 text-sm">RS</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Rian Saputra</p>
+                            <p class="text-[10px] text-slate-500">Mahasiswa (Dropshipper)</p>
+                        </div>
                     </div>
-                </div>`).join('');
-            lucide.createIcons();
-        }
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Gila sih, hook-nya emang nampol. Kontenku biasanya cuma puluhan view, sekarang mulai konsisten di ratusan sampai ribuan."</p>
+                </div>
+                <!-- Testi 3 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-cyan-600/20 flex items-center justify-center font-bold text-cyan-400 text-sm">SL</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Siti Lailatul</p>
+                            <p class="text-[10px] text-slate-500">Penjual Skincare Lokal</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Suka banget sama fitur suaranya. Jadi dapet bayangan gimana cara ngomongnya biar nggak kaku. Rekomen buat pemula!"</p>
+                </div>
+                <!-- Testi 4 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-emerald-600/20 flex items-center justify-center font-bold text-emerald-400 text-sm">DW</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Dedi Wahyudi</p>
+                            <p class="text-[10px] text-slate-500">Kreator Edukasi Pemula</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Script storytelling-nya rapi banget alurnya. Bikin orang betah nonton sampai habis tanpa ngerasa dipaksa beli."</p>
+                </div>
+                <!-- Testi 5 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center font-bold text-blue-400 text-sm">FA</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Fahmi Ardiansyah</p>
+                            <p class="text-[10px] text-slate-500">Penjual Aksesoris HP</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Sangat ngebantu buat aku yang introvert dan gak tahu cara mulai ngomong di depan kamera. Script-nya bikin pede."</p>
+                </div>
+                <!-- Testi 6 -->
+                <div class="glass-box p-8 rounded-3xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-amber-600/20 flex items-center justify-center font-bold text-amber-400 text-sm">MK</div>
+                        <div>
+                            <p class="font-bold text-sm text-white">Maya Kartika</p>
+                            <p class="text-[10px] text-slate-500">Reseller Snack Kemasan</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed italic">"Ternyata jualan itu nggak harus teriak-teriak diskon ya. Pake cara cerita malah lebih banyak yang nanya stok."</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        async function playTTS(text, idx) {
-            const btn = document.getElementById('b-v-'+idx); btn.innerText = "...";
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: document.getElementById('v-'+idx).value } } } } })
-                });
-                const d = await res.json();
-                new Audio("data:audio/wav;base64," + d.candidates[0].content.parts[0].inlineData.data).play();
-            } catch (e) { alert("TTS Gagal"); }
-            finally { btn.innerText = "Play Voice"; }
-        }
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white uppercase tracking-[0.2em] text-sm opacity-50">FAQ</h2>
+            <div class="space-y-4">
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Apakah ini bisa untuk semua jenis produk?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Bisa banget! Mulai dari produk fisik, jasa, hingga produk digital. AI kami akan menyesuaikan gaya bahasanya dengan produk yang kamu input.</p>
+                </details>
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Apakah saya perlu bayar langganan bulanan?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Tidak ada biaya bulanan. Sekali bayar, kamu bisa akses tool ini selamanya untuk menunjang konten jualanmu.</p>
+                </details>
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Berapa lama akses akan diberikan setelah bayar?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Instan! Setelah pembayaran terverifikasi otomatis oleh sistem Lynk.id, kamu akan langsung diarahkan ke halaman akses utama.</p>
+                </details>
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Apakah script-nya bisa langsung dipakai?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Ya, script sudah dirancang siap baca. Namun, kamu bebas mengedit atau menyesuaikan sedikit agar lebih sesuai dengan gaya bicaramu sendiri.</p>
+                </details>
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Apa yang saya dapatkan di dalam tool ini?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Kamu dapet generator script (10 variasi), panduan visual, simulasi voice-over AI, dan fitur history untuk menyimpan ide-ide scriptmu.</p>
+                </details>
+                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
+                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
+                        Bagaimana jika saya mengalami kendala teknis?
+                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
+                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                    </summary>
+                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Tenang, tim support kami siap membantu. Kamu bisa hubungi kontak yang tertera di halaman akses jika ada kendala.</p>
+                </details>
+            </div>
+        </div>
+    </section>
 
-        function saveLocal(s) {
-            let h = JSON.parse(localStorage.getItem('saved_scripts') || "[]");
-            h.unshift({scripts:s, date: new Date().toLocaleString()});
-            localStorage.setItem('saved_scripts', JSON.stringify(h.slice(0,10)));
-        }
+    <!-- CTA Section -->
+    <section id="purchase" class="py-24 px-4 mb-20">
+        <div class="max-w-5xl mx-auto glass-box p-12 md:p-20 rounded-[4rem] text-center border-indigo-500/30 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-purple-600/10 pointer-events-none"></div>
+            
+            <h2 class="text-3xl md:text-5xl font-black mb-6 relative z-10 text-white leading-tight">Mulai Transformasi <br>Kontenmu Hari Ini.</h2>
+            
+            <!-- Harga Coret -->
+            <div class="relative z-10 mb-10 flex flex-col items-center justify-center">
+                <p class="text-slate-500 line-through text-xl md:text-2xl font-bold mb-1">Rp 149.000</p>
+                <div class="flex items-center gap-3">
+                    <p class="text-4xl md:text-6xl font-black text-white">Rp 49.000</p>
+                    <div class="px-3 py-1 bg-red-500 rounded-lg text-white font-black text-xs animate-pulse">DISKON 67%</div>
+                </div>
+                <p class="text-indigo-400 text-xs mt-4 font-bold uppercase tracking-widest">*Promo terbatas untuk batch bulan ini</p>
+            </div>
 
-        function switchTab(t) {
-            document.getElementById('tab-editor').style.display = t === 'editor' ? 'grid' : 'none';
-            document.getElementById('tab-history').style.display = t === 'history' ? 'block' : 'none';
-            document.getElementById('btn-editor').classList.toggle('active', t === 'editor');
-            document.getElementById('btn-history').classList.toggle('active', t === 'history');
-            if(t === 'history') {
-                const h = JSON.parse(localStorage.getItem('saved_scripts') || "[]");
-                document.getElementById('tab-history').innerHTML = h.map(i => `<div class="glass-card p-6 rounded-3xl flex justify-between items-center mb-4"><p class="font-black italic text-xs uppercase text-white">Project ${i.date}</p><button onclick='renderResults(${JSON.stringify(i.scripts)});switchTab("editor")' class="bg-indigo-600 px-5 py-2 rounded-xl text-[10px] font-black uppercase">BUKA</button></div>`).join('');
-            }
-        }
-        lucide.createIcons();
-    </script>
+            <div class="inline-block p-1 bg-slate-900 rounded-3xl mb-8 relative z-10">
+                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="cta-button inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-lg text-white shadow-2xl transition-all">
+                    <i class="fa-solid fa-rocket"></i> Amankan Akses Sekarang
+                </a>
+            </div>
+
+            <div class="flex items-center justify-center gap-6 opacity-50 relative z-10">
+                <i class="fa-brands fa-cc-visa text-2xl"></i>
+                <i class="fa-solid fa-qrcode text-2xl"></i>
+                <i class="fa-solid fa-building-columns text-2xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-white">Secure Payment</span>
+            </div>
+            <p class="mt-6 text-[10px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Pembayaran diproses secara aman oleh Lynk.id</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-4 border-t border-slate-900 text-center">
+        <div class="flex items-center justify-center gap-3 mb-4 opacity-50">
+            <i class="fa-solid fa-brain text-indigo-400"></i>
+            <span class="text-sm font-black tracking-tighter text-white">PsycoScript Pro</span>
+        </div>
+        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-600 mb-2">v2.6.6 • All Rights Reserved</p>
+        <p class="text-xs text-slate-500 font-medium">Crafted for Creators by <span class="text-indigo-400 font-bold">Jepengonten</span></p>
+    </footer>
+
 </body>
 </html>
+
