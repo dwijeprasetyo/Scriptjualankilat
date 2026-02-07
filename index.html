@@ -3,408 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PsycoScript Pro - Landing Page</title>
+    <title>SUARASA PRO - Landing Page High Conversion</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            scroll-behavior: smooth;
-            background-color: #020617;
-            color: #f8fafc;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+
+        :root {
+            --primary-rose: #e11d48;
+            --primary-gold: #fbbf24;
+            --bg-deep: #0f0a1e;
+            --bg-card: #161b33;
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #818cf8, #c084fc, #22d3ee);
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #0f0a1e 100%);
+            color: #f8fafc;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 51, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+        }
+
+        .text-gradient-rose {
+            background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .glass-box {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .bg-gradient-rose {
+            background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%);
         }
 
-        .cta-button {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            transition: all 0.3s ease;
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .cta-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(225, 29, 72, 0.4);
         }
 
-        .nav-glass {
-            background: rgba(2, 6, 23, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
 
         details summary::-webkit-details-marker {
             display: none;
         }
-
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        .animate-pulse-soft {
-            animation: pulse-soft 2s infinite;
-        }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="antialiased">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-[100] nav-glass">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-5">
+        <div class="max-w-6xl mx-auto flex justify-between items-center glass-card px-8 py-4 border-white/10">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                    <i class="fa-solid fa-brain text-white text-xl"></i>
+                <div class="w-10 h-10 bg-gradient-rose rounded-xl flex items-center justify-center">
+                    <i class="fas fa-microphone-alt text-xl text-white"></i>
                 </div>
-                <span class="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">PsycoScript Pro</span>
+                <span class="font-extrabold text-2xl tracking-tight uppercase">SUARASA<span class="text-amber-400 italic">PRO</span></span>
             </div>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#about" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">Method</a>
-                <a href="#testi" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">Testimonial</a>
-                <a href="#faq" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 transition-colors">FAQ</a>
-                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="px-6 py-2.5 rounded-xl bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-indigo-400 hover:text-white transition-all">Get Access</a>
-            </div>
+            <a href="#pricing" class="bg-gradient-rose px-6 py-2.5 rounded-2xl text-sm font-bold text-white btn-hover">
+                Dapatkan Akses
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center justify-center pt-32 pb-10 px-4">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-600/20 rounded-full blur-[120px]"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-600/10 rounded-full blur-[120px]"></div>
-        </div>
-
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <div class="inline-block px-4 py-1.5 mb-6 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[10px] font-bold uppercase tracking-widest">
-                The Science of StorySelling
+    <!-- 1. HERO SECTION (THE HOOK) -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 pb-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 mb-8 floating">
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-300">🚀 #1 AI StorySelling di Indonesia</span>
             </div>
-            <h1 class="text-4xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
-                Berhenti Jualan, <br>Mulailah <span class="gradient-text">Memikat Hati.</span>
+            <h1 class="text-5xl md:text-7xl font-black mb-8 leading-tight">
+                Berhenti Jualan Secara Kaku. <br>Mulai Bercerita dengan <span class="text-gradient-rose">RASA.</span>
             </h1>
-            <p class="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto">
-                Bikin script konten yang bikin audience gak bisa skip, tanpa harus pusing belajar copywriting bertahun-tahun.
+            <p class="text-lg md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+                Ubah penonton jadi pembeli setia lewat script yang dirancang dengan <span class="text-rose-400 font-bold uppercase tracking-wide">Arsitektur Philipp Humm</span> dan suara AI yang paling manusiawi.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="cta-button px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl text-white">
-                    Amankan Akses Sekarang
-                </a>
-                <a href="#about" class="text-slate-400 hover:text-white transition-all text-sm font-medium">
-                    Pelajari Rahasianya <i class="fa-solid fa-arrow-down ml-2"></i>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center mb-20">
+                <a href="#pricing" class="bg-gradient-rose px-10 py-5 rounded-3xl text-xl font-extrabold text-white btn-hover flex items-center justify-center gap-3">
+                    Beli SUARASA PRO - Rp49rb <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-        </div>
-    </header>
-
-    <!-- Authority Section -->
-    <section id="about" class="py-24 px-4 bg-slate-950/50">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="relative">
-                    <div class="aspect-square rounded-[3rem] overflow-hidden border border-slate-800">
-                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1000" alt="Philipp Humm" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                    </div>
-                    <div class="absolute -bottom-6 -right-6 glass-box p-6 rounded-3xl border-indigo-500/30">
-                        <p class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-1">Methodology by</p>
-                        <p class="text-xl font-black">Philipp Humm</p>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="text-3xl font-bold mb-6 text-white leading-tight">Membangun Kepercayaan Lewat <span class="text-indigo-400">Cerita</span></h2>
-                    
-                    <!-- Quote Philipp Humm Bahasa Indonesia -->
-                    <div class="mb-8 p-6 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-r-2xl italic">
-                        <p class="text-slate-300 text-lg mb-2">"Data hanya memberi tahu, tapi cerita lah yang menjual. Logika membuat orang berpikir, namun emosi lah yang membuat mereka bertindak."</p>
-                        <p class="text-xs font-bold uppercase tracking-widest text-indigo-400">— Philipp Humm</p>
-                    </div>
-
-                    <p class="text-slate-400 leading-relaxed mb-6">
-                        Banyak pengajar di luar sana hanya fokus pada teknik promosi yang agresif. Namun, <span class="text-white font-bold">Philipp Humm</span>, seorang pakar bercerita tingkat dunia, telah menemukan kunci utama: <span class="text-indigo-400 font-semibold italic">Otak manusia dirancang untuk merespons cerita, bukan iklan.</span>
-                    </p>
-                    <p class="text-slate-400 leading-relaxed mb-6">
-                        Metode miliknya menggabungkan psikologi perilaku dengan seni narasi yang elegan. Melalui <span class="text-purple-400 font-bold">PsycoScript Pro</span>, kami mengadopsi struktur ini agar audiens Anda merasa didengar dan terbantu, sehingga konversi terjadi secara natural tanpa paksaan.
-                    </p>
-                    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-slate-800">
-                        <div>
-                            <p class="text-2xl font-black text-indigo-400">100%</p>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Psikologi Murni</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-black text-purple-400">0%</p>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Hard-Selling Kasar</p>
-                        </div>
-                    </div>
+            <div class="pt-10 border-t border-white/5">
+                <p class="text-xs font-bold uppercase tracking-[0.3em] text-slate-500 mb-6">Optimized for Platforms</p>
+                <div class="flex justify-center gap-8 md:gap-16 opacity-40 grayscale">
+                    <i class="fab fa-tiktok text-3xl"></i>
+                    <i class="fab fa-instagram text-3xl"></i>
+                    <i class="fab fa-youtube text-3xl"></i>
+                    <i class="fab fa-facebook text-3xl"></i>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Language & TTS Advantage Section -->
-    <section class="py-24 px-4 bg-gradient-to-b from-slate-950/50 to-slate-900/20">
-        <div class="max-w-6xl mx-auto">
+    <!-- 2. PAIN & AGITATION SECTION -->
+    <section class="py-32 px-6 bg-rose-950/10 border-y border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-black mb-6 italic text-rose-200">Kenyataan Pahitnya Adalah...</h2>
+                <h3 class="text-2xl md:text-4xl font-black mb-8">Capek Ngonten Tapi <span class="text-rose-500 underline decoration-2 underline-offset-8">Gak Ada yang Beli?</span></h3>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                    Kamu sudah riset produk, beli alat mahal, edit video sampai pagi... tapi hasilnya? <span class="text-white font-extrabold italic">Nol besar.</span> Penonton cuma lewat, atau paling parah: <span class="text-rose-400 font-bold">langsung di-swipe.</span>
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="glass-card p-10 border-red-500/20 bg-red-500/5">
+                    <h4 class="text-rose-400 font-black text-xl mb-6 uppercase tracking-widest"><i class="fas fa-exclamation-triangle mr-2"></i> Masalah Utama</h4>
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex gap-3 items-start"><i class="fas fa-times-circle text-rose-500 mt-1"></i> <span>Script kaku kayak baca teks Undang-Undang.</span></li>
+                        <li class="flex gap-3 items-start"><i class="fas fa-times-circle text-rose-500 mt-1"></i> <span>Suara AI robot yang bikin orang ilfeel dalam 1 detik.</span></li>
+                        <li class="flex gap-3 items-start"><i class="fas fa-times-circle text-rose-500 mt-1"></i> <span>Gak tau gimana cara mulai cerita (Hook-nya mati).</span></li>
+                    </ul>
+                </div>
+                <div class="glass-card p-10 border-rose-500/40 bg-rose-900/10">
+                    <h4 class="text-rose-300 font-black text-xl mb-6 uppercase tracking-widest"><i class="fas fa-fire mr-2"></i> Fakta Menyakitkan</h4>
+                    <p class="text-slate-400 text-sm italic leading-relaxed">
+                        "Bayangin, algoritma sekarang makin ketat. Kalau kontenmu gak punya <span class="text-rose-400 font-bold">'Rasa'</span> dan <span class="text-rose-400 font-bold">'Nyawa'</span>, kamu cuma bakal buang-buang waktu. Kompetitormu yang pakai strategi StorySelling bakal melahap semua marketmu dalam sekejap. Kamu mau terus-terusan jadi penonton kesuksesan orang lain?"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE AUTHORITY (PHILIPP HUMM) -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black text-white mb-6">Kenali Keunggulan <span class="gradient-text">Bahasa Lokal</span></h2>
-                <p class="text-slate-400 max-w-2xl mx-auto italic">"Bukan sekadar kata-kata, tapi rasa yang sampai ke hati audiens."</p>
+                <span class="text-amber-400 font-black tracking-[0.4em] text-xs uppercase">Pola Pikir di Balik Suarasa</span>
+                <h2 class="text-4xl md:text-6xl font-black mt-4 mb-10 leading-tight">Siapa <span class="text-gradient-rose">Philipp Humm?</span></h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Point 1 -->
-                <div class="glass-box p-10 rounded-[2.5rem] border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                    <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-microphone-lines text-2xl text-indigo-400"></i>
+            <div class="glass-card p-10 md:p-16 border-rose-500/20 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-500/10 blur-3xl"></div>
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-6">
+                        <p class="text-slate-300 text-lg leading-relaxed">
+                            <span class="text-rose-400 text-2xl font-extrabold uppercase tracking-tight">Philipp Humm</span> adalah pakar Storytelling kelas dunia yang telah melatih ribuan eksekutif dari perusahaan Fortune 500 (seperti Google dan Oracle) untuk mengubah data membosankan menjadi cerita yang menggerakkan hati.
+                        </p>
+                        <p class="text-slate-400">
+                            Metodenya bukan sekadar "bicara", tapi tentang <span class="text-white font-bold">Arsitektur Persuasi</span> yang mampu mem-bypass otak logis manusia dan langsung menyentuh pusat pengambilan keputusan: <span class="text-rose-400 font-bold italic">Emosi.</span>
+                        </p>
+                        <div class="pt-6">
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 italic text-rose-300">
+                                <i class="fas fa-quote-left text-2xl opacity-50"></i>
+                                <p class="text-xl font-bold">"Orang benci dipaksa membeli, tapi mereka sangat suka mendengarkan cerita yang bagus."</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">TTS Ultra-Natural (Anti-Robot)</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Lupakan suara asisten virtual yang kaku. AI kami menggunakan teknologi <span class="text-indigo-300 font-semibold">Neural Speech</span> yang meniru intonasi manusia asli—lengkap dengan jeda napas dan penekanan emosi yang tepat sesuai konteks script Anda.
-                    </p>
-                </div>
-                <!-- Point 2 -->
-                <div class="glass-box p-10 rounded-[2.5rem] border-purple-500/20 hover:border-purple-500/40 transition-all">
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-comments text-2xl text-purple-400"></i>
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="glass-card p-6 bg-white/5 border-white/5">
+                            <h4 class="font-black text-amber-400 mb-2 italic">Celah Logika</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">Kebanyakan seller jualan fitur (logika). Philipp mengajarkan jualan solusi lewat cerita (emosi). SUARASA PRO menggunakan algoritma ini.</p>
+                        </div>
+                        <div class="glass-card p-6 bg-white/5 border-white/5">
+                            <h4 class="font-black text-amber-400 mb-2 italic">Aturan Emas</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">"Jangan jadi penjual, jadilah pemberi solusi yang bercerita." Kalimat inilah yang menjadi pondasi setiap script yang dihasilkan SUARASA PRO.</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Dialek Daerah: Ngapak hingga Medan</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Script tidak dibuat dengan bahasa baku yang membosankan. AI kami mengerti logat lokal seperti <span class="text-purple-300 font-semibold italic">Ngapak, Jawa Medhok, Sunda, Medan, Suroboyoan</span>, hingga gaya bahasa santai khas anak muda Indonesia yang bikin konten Anda terasa lebih "relate" dan akrab.
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest animate-pulse-soft">
-                    <i class="fa-solid fa-bolt"></i> 98% Audiens Tidak Menyadari Ini Adalah AI
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pain & Desire Section -->
-    <section class="py-24 px-4">
-        <div class="max-w-4xl mx-auto text-center mb-16">
-            <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight text-white">Sudah Capek Ngonten <br>Tapi <span class="text-red-500">Zonk?</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
-                    <i class="fa-solid fa-cloud-rain text-3xl text-red-400 mb-4"></i>
-                    <p class="text-sm text-slate-400 italic">"Udah bikin konten capek-capek, tapi yang nonton cuma dikit banget."</p>
+    <!-- 4. DESIRE SECTION (THE DREAM) -->
+    <section class="py-32 px-6 bg-indigo-950/20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-black mb-12 italic">Bayangkan Jika Kontenmu...</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-amber-400 text-4xl mb-4"><i class="fas fa-heart"></i></div>
+                    <p class="font-bold text-lg mb-2">Bikin Nagih</p>
+                    <p class="text-xs text-slate-500">Orang nonton sampai habis karena merasa terhubung secara emosional.</p>
                 </div>
-                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
-                    <i class="fa-solid fa-battery-empty text-3xl text-red-400 mb-4"></i>
-                    <p class="text-sm text-slate-400 italic">"Bingung mau ngomong apa, akhirnya cuma joget-joget nggak jelas."</p>
+                <div class="p-6">
+                    <div class="text-rose-400 text-4xl mb-4"><i class="fas fa-shopping-cart"></i></div>
+                    <p class="font-bold text-lg mb-2">Konversi Tinggi</p>
+                    <p class="text-xs text-slate-500">Mereka gak merasa dijualin, tapi mereka yang 'Minta' beli produkmu.</p>
                 </div>
-                <div class="glass-box p-8 rounded-[2rem] border-red-500/10">
-                    <i class="fa-solid fa-comment-slash text-3xl text-red-400 mb-4"></i>
-                    <p class="text-sm text-slate-400 italic">"Ada yang nonton, tapi nggak ada satupun yang nanya harga."</p>
+                <div class="p-6">
+                    <div class="text-cyan-400 text-4xl mb-4"><i class="fas fa-bolt"></i></div>
+                    <p class="font-bold text-lg mb-2">Otomatis & Cepat</p>
+                    <p class="text-xs text-slate-500">Bikin 10 variasi script storyselling cuma dalam hitungan detik.</p>
                 </div>
-            </div>
-        </div>
-
-        <div class="max-w-4xl mx-auto glass-box p-12 rounded-[3rem] border-indigo-500/20 relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-8">
-                <i class="fa-solid fa-sun text-6xl text-indigo-500/10"></i>
-            </div>
-            <h3 class="text-2xl font-bold mb-6 text-white">Bayangkan Jika...</h3>
-            <ul class="space-y-4">
-                <li class="flex items-start gap-4">
-                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
-                    <p class="text-slate-300">Setiap script yang kamu buat punya <span class="text-white font-bold">Hook</span> yang bikin orang berhenti scrolling.</p>
-                </li>
-                <li class="flex items-start gap-4">
-                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
-                    <p class="text-slate-300">Audiens merasa sangat <span class="text-white font-bold">Relate</span> dengan ceritamu dan percaya padamu.</p>
-                </li>
-                <li class="flex items-start gap-4">
-                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
-                    <p class="text-slate-300">Link bio kamu banjir klik secara organik setiap kali kamu posting konten baru.</p>
-                </li>
-            </ul>
-            <div class="mt-10 p-6 bg-indigo-500/5 rounded-2xl border border-indigo-500/10 text-center">
-                <p class="text-sm text-indigo-300 font-medium">Itulah misi utama <b>PsycoScript Pro</b>—sebuah asisten cerdas untuk membantu Anda menulis script sekelas ahli dalam sekejap.</p>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section id="testi" class="py-24 px-4 bg-slate-950/30">
+    <!-- 5. SOLUTION (HOW IT WORKS) -->
+    <section class="py-32 px-6">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-16 uppercase tracking-widest text-slate-500 text-sm">Apa Kata Teman-teman Kita?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testi 1 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-indigo-600/20 flex items-center justify-center font-bold text-indigo-400 text-sm">AN</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Andini Nurfajriah</p>
-                            <p class="text-[10px] text-slate-500">Ibu Rumah Tangga (Jualan Daster)</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Awalnya gaptek banget soal script. Pake ini tinggal masukkan nama barang, script-nya langsung jadi. Pas dipraktekin di TikTok, eh ada yang check out beneran!"</p>
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-6xl font-black mb-8 leading-tight">Ini <span class="text-gradient-rose">Solusi</span> yang Kamu Cari.</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">SUARASA PRO menggabungkan kecerdasan buatan dengan Arsitektur Philipp Humm untuk hasil yang punya <span class="text-white font-bold">"Nyawa"</span>.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center gap-5 p-8 glass-card border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-500 text-2xl font-bold">1</div>
+                    <div><p class="font-bold text-xl mb-2">The Hook</p><p class="text-sm text-slate-500 leading-relaxed">Pancing rasa penasaran dalam 3 detik pertama dengan script yang relevan.</p></div>
                 </div>
-                <!-- Testi 2 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-purple-600/20 flex items-center justify-center font-bold text-purple-400 text-sm">RS</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Rian Saputra</p>
-                            <p class="text-[10px] text-slate-500">Mahasiswa (Dropshipper)</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Gila sih, hook-nya emang nampol. Kontenku biasanya cuma puluhan view, sekarang mulai konsisten di ratusan sampai ribuan."</p>
+                <div class="flex flex-col items-center gap-5 p-8 glass-card border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-500 text-2xl font-bold">2</div>
+                    <div><p class="font-bold text-xl mb-2">The Story</p><p class="text-sm text-slate-500 leading-relaxed">Membangun empati yang bikin mereka merasa "Ini aku banget".</p></div>
                 </div>
-                <!-- Testi 3 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-cyan-600/20 flex items-center justify-center font-bold text-cyan-400 text-sm">SL</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Siti Lailatul</p>
-                            <p class="text-[10px] text-slate-500">Penjual Skincare Lokal</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Suka banget sama fitur suaranya. Jadi dapet bayangan gimana cara ngomongnya biar nggak kaku. Rekomen buat pemula!"</p>
-                </div>
-                <!-- Testi 4 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-emerald-600/20 flex items-center justify-center font-bold text-emerald-400 text-sm">DW</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Dedi Wahyudi</p>
-                            <p class="text-[10px] text-slate-500">Kreator Edukasi Pemula</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Script storytelling-nya rapi banget alurnya. Bikin orang betah nonton sampai habis tanpa ngerasa dipaksa beli."</p>
-                </div>
-                <!-- Testi 5 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center font-bold text-blue-400 text-sm">FA</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Fahmi Ardiansyah</p>
-                            <p class="text-[10px] text-slate-500">Penjual Aksesoris HP</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Sangat ngebantu buat aku yang introvert dan gak tahu cara mulai ngomong di depan kamera. Script-nya bikin pede."</p>
-                </div>
-                <!-- Testi 6 -->
-                <div class="glass-box p-8 rounded-3xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-amber-600/20 flex items-center justify-center font-bold text-amber-400 text-sm">MK</div>
-                        <div>
-                            <p class="font-bold text-sm text-white">Maya Kartika</p>
-                            <p class="text-[10px] text-slate-500">Reseller Snack Kemasan</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed italic">"Ternyata jualan itu nggak harus teriak-teriak diskon ya. Pake cara cerita malah lebih banyak yang nanya stok."</p>
+                <div class="flex flex-col items-center gap-5 p-8 glass-card border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-500 text-2xl font-bold">3</div>
+                    <div><p class="font-bold text-xl mb-2">The Resolution</p><p class="text-sm text-slate-500 leading-relaxed">Produkmu hadir sebagai pahlawan di saat yang paling tepat.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-24 px-4">
+    <!-- 6. TESTIMONIALS (6 TESTIMONI) -->
+    <section class="py-32 px-6 bg-slate-950/20 border-y border-white/5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-black mb-4 italic">Kata Mereka yang Sudah <span class="text-rose-500">Naik Kelas</span></h2>
+                <p class="text-slate-500">Bukan sekadar kata, tapi hasil nyata.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Biasanya bikin script 2 jam, sekarang 2 menit kelar. Penonton malah naik 3x lipat!"</p>
+                    <p class="font-bold text-xs uppercase">— Andi, Gadget Reviewer</p>
+                </div>
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Suara 'Medok' nya juara banget. Gak ada yang nyangka ini AI. Jualan jilbab makin laris!"</p>
+                    <p class="font-bold text-xs uppercase">— Siti, Owner Fashion</p>
+                </div>
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Strategi Philipp Humm emang gila. Engagement konten edukasi saya naik drastis."</p>
+                    <p class="font-bold text-xs uppercase">— Dr. Kevin, Edukator</p>
+                </div>
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Terbantu banget buat bikin iklan ads yang high-converting tanpa harus sewa copywriter mahal."</p>
+                    <p class="font-bold text-xs uppercase">— Budi, Digital Marketer</p>
+                </div>
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Awalnya ragu cuma 49rb, tapi isinya daging semua. Tool paling worth it tahun ini!"</p>
+                    <p class="font-bold text-xs uppercase">— Maya, Content Creator</p>
+                </div>
+                <div class="glass-card p-8 border-white/5">
+                    <div class="flex gap-1 text-amber-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-sm italic text-slate-300 mb-6">"Fitur Mix Dialek-nya asik pol. Bisa bikin konten yang berasa lokal banget buat audiens daerah."</p>
+                    <p class="font-bold text-xs uppercase">— Rian, Travel Blogger</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. COMPARISON -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-black">Lihat Bedanya.</h2>
+                <p class="text-slate-500 italic">Script Biasa vs SUARASA PRO</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="p-8 border border-white/5 rounded-3xl opacity-50">
+                    <p class="text-xs font-bold uppercase text-slate-500 mb-4">Script AI Biasa/Umum</p>
+                    <p class="text-sm italic leading-relaxed">
+                        "Halo semuanya. Saya menjual lampu RGB. Lampu ini memiliki banyak warna dan sangat terang. Silakan beli di link saya sekarang. Terima kasih."
+                    </p>
+                    <div class="mt-6 flex items-center gap-2 text-red-500 text-xs font-bold uppercase">
+                        <i class="fas fa-times-circle"></i> Kaku & Tidak Menarik
+                    </div>
+                </div>
+                <div class="p-8 border border-rose-500/30 rounded-3xl bg-rose-500/5 shadow-2xl shadow-rose-500/5">
+                    <p class="text-xs font-bold uppercase text-rose-400 mb-4">Script SUARASA PRO (Medok Mode)</p>
+                    <p class="text-sm italic leading-relaxed text-white">
+                        "Rek, sumpah... kamar kerjaku mbiyen peteng dedet, ra enek suasanane blas. Tapi bareng tak pasang lampu iki, beh! Malah dadi koyo studio mahal. Sumpah, kowe kudu ngrasakne dewe aurane..."
+                    </p>
+                    <div class="mt-6 flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase">
+                        <i class="fas fa-check-circle"></i> Berjiwa & Mengajak
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. FAQ SECTION (6 FAQ) -->
+    <section class="py-32 px-6">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white uppercase tracking-[0.2em] text-sm opacity-50">FAQ</h2>
+            <h2 class="text-4xl font-black text-center mb-16 underline underline-offset-8 decoration-rose-500">Sering Ditanyakan</h2>
             <div class="space-y-4">
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Apakah ini bisa untuk semua jenis produk?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Apakah benar aksesnya selamanya (Lifetime)?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Bisa banget! Mulai dari produk fisik, jasa, hingga produk digital. AI kami akan menyesuaikan gaya bahasanya dengan produk yang kamu input.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        Ya, benar! Sekali bayar Rp49.000 saja, kamu bisa pakai SUARASA PRO selamanya tanpa biaya langganan bulanan.
+                    </div>
                 </details>
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Apakah saya perlu bayar langganan bulanan?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Apakah script-nya bisa untuk semua niche?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Tidak ada biaya bulanan. Sekali bayar, kamu bisa akses tool ini selamanya untuk menunjang konten jualanmu.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        Sangat bisa. Mulai dari jualan daster, gadget, skincare, jasa desain, hingga edukasi medis. AI kami sudah dilatih memahami berbagai market.
+                    </div>
                 </details>
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Berapa lama akses akan diberikan setelah bayar?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Apa bedanya dengan ChatGPT gratisan?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Instan! Setelah pembayaran terverifikasi otomatis oleh sistem Lynk.id, kamu akan langsung diarahkan ke halaman akses utama.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        ChatGPT umum tidak memiliki pemahaman emosi dan strategi spesifik <span class="text-rose-400 font-bold">Philipp Humm</span>. SUARASA PRO sudah di-tuning khusus untuk StorySelling dan dialek lokal Indonesia.
+                    </div>
                 </details>
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Apakah script-nya bisa langsung dipakai?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Gimana kalau saya gak bisa edit video?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Ya, script sudah dirancang siap baca. Namun, kamu bebas mengedit atau menyesuaikan sedikit agar lebih sesuai dengan gaya bicaramu sendiri.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        Tenang, SUARASA PRO memberikan <span class="text-white font-bold italic">Visual Plan</span> di setiap script-nya. Kamu tinggal ikuti panduan gambarnya, jadi gak bingung lagi mau ngerekam apa.
+                    </div>
                 </details>
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Apa yang saya dapatkan di dalam tool ini?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Apakah suara AI-nya terdengar natural?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Kamu dapet generator script (10 variasi), panduan visual, simulasi voice-over AI, dan fitur history untuk menyimpan ide-ide scriptmu.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        Kami menggunakan engine TTS terbaru yang mendukung intonasi, jeda, dan emosi manusia. Ditambah dialek lokal, hasilnya sangat manusiawi.
+                    </div>
                 </details>
-                <details class="group glass-box p-6 rounded-2xl cursor-pointer">
-                    <summary class="list-none flex justify-between items-center font-bold text-sm text-white">
-                        Bagaimana jika saya mengalami kendala teknis?
-                        <i class="fa-solid fa-plus group-open:hidden transition-all text-indigo-400"></i>
-                        <i class="fa-solid fa-minus hidden group-open:block transition-all text-indigo-400"></i>
+                <details class="glass-card border-white/5 group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        <span>Ada jaminan uang kembali?</span>
+                        <i class="fas fa-chevron-down text-rose-500 group-open:rotate-180 transition-transform"></i>
                     </summary>
-                    <p class="mt-4 text-xs text-slate-400 leading-relaxed">Tenang, tim support kami siap membantu. Kamu bisa hubungi kontak yang tertera di halaman akses jika ada kendala.</p>
+                    <div class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">
+                        Kami percaya pada kualitas tool ini. Jika dalam 7 hari kamu merasa tidak ada manfaat sama sekali, hubungi kami untuk refund 100%. Tanpa tapi.
+                    </div>
                 </details>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section id="purchase" class="py-24 px-4 mb-20">
-        <div class="max-w-5xl mx-auto glass-box p-12 md:p-20 rounded-[4rem] text-center border-indigo-500/30 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-purple-600/10 pointer-events-none"></div>
-            
-            <h2 class="text-3xl md:text-5xl font-black mb-6 relative z-10 text-white leading-tight">Mulai Transformasi <br>Kontenmu Hari Ini.</h2>
-            
-            <!-- Harga Coret -->
-            <div class="relative z-10 mb-10 flex flex-col items-center justify-center">
-                <p class="text-slate-500 line-through text-xl md:text-2xl font-bold mb-1">Rp 149.000</p>
-                <div class="flex items-center gap-3">
-                    <p class="text-4xl md:text-6xl font-black text-white">Rp 49.000</p>
-                    <div class="px-3 py-1 bg-red-500 rounded-lg text-white font-black text-xs animate-pulse">DISKON 67%</div>
+    <!-- 9. FINAL CTA (OFFER + URGENCY) -->
+    <section id="pricing" class="py-40 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="glass-card p-12 md:p-24 border-rose-500/30 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-500/20 blur-3xl"></div>
+                
+                <h2 class="text-4xl md:text-6xl font-black mb-6 italic italic">Kesempatan <span class="text-gradient-rose font-black">Terbatas.</span></h2>
+                <p class="text-slate-400 mb-12">Dapatkan keunggulan kompetitif hari ini. Sebelum harga naik kembali ke normal.</p>
+                
+                <div class="mb-12">
+                    <div class="text-sm font-bold text-slate-500 line-through mb-1">Normal: Rp 199.000</div>
+                    <div class="text-7xl font-black text-white">Rp 49.000</div>
+                    <div class="mt-4 inline-block bg-amber-500/20 text-amber-400 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                        Akses Selamanya (Lifetime)
+                    </div>
                 </div>
-                <p class="text-indigo-400 text-xs mt-4 font-bold uppercase tracking-widest">*Promo terbatas untuk batch bulan ini</p>
-            </div>
 
-            <div class="inline-block p-1 bg-slate-900 rounded-3xl mb-8 relative z-10">
-                <a href="http://lynk.id/dwijeprasetyo/vnqz3od33m4z/checkout" target="_blank" class="cta-button inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-lg text-white shadow-2xl transition-all">
-                    <i class="fa-solid fa-rocket"></i> Amankan Akses Sekarang
+                <a href="https://lynk.id/dwijeprasetyo/vnqz3od33m4z" target="_blank" class="block w-full sm:w-max mx-auto bg-gradient-rose px-12 py-6 rounded-3xl text-2xl font-black text-white btn-hover">
+                    DAPATKAN AKSES SEKARANG <i class="fas fa-bolt ml-2"></i>
                 </a>
+                
+                <p class="mt-8 text-xs text-slate-500 font-bold uppercase tracking-widest italic">
+                    <i class="fas fa-user-friends mr-2"></i> 1,400+ Kreator Sudah Bergabung
+                </p>
             </div>
-
-            <div class="flex items-center justify-center gap-6 opacity-50 relative z-10">
-                <i class="fa-brands fa-cc-visa text-2xl"></i>
-                <i class="fa-solid fa-qrcode text-2xl"></i>
-                <i class="fa-solid fa-building-columns text-2xl"></i>
-                <span class="text-[10px] font-bold uppercase tracking-widest text-white">Secure Payment</span>
-            </div>
-            <p class="mt-6 text-[10px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Pembayaran diproses secara aman oleh Lynk.id</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-10 px-4 border-t border-slate-900 text-center">
-        <div class="flex items-center justify-center gap-3 mb-4 opacity-50">
-            <i class="fa-solid fa-brain text-indigo-400"></i>
-            <span class="text-sm font-black tracking-tighter text-white">PsycoScript Pro</span>
-        </div>
-        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-600 mb-2">v2.6.6 • All Rights Reserved</p>
-        <p class="text-xs text-slate-500 font-medium">Crafted for Creators by <span class="text-indigo-400 font-bold">Jepengonten</span></p>
+    <footer class="py-12 border-t border-white/5 text-center text-slate-600">
+        <p class="text-xs font-bold uppercase tracking-widest">© 2024 SUARASA PRO - Strategi Philipp Humm dalam Genggaman.</p>
     </footer>
 
 </body>
